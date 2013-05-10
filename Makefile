@@ -25,25 +25,25 @@ HORIZGFX =	$(filter-out gfx/%.png, $(VERTGFX))
 # the recompressed graphics may be larger than the originals,
 # so take care to reorganize accordingly
 
-all: pokecrystal.gbc
+all: pokecrystal-demo.gbc
 	cmp baserom.gbc $<
 
-win: pokecrystal.gbc
+win: pokecrystal-demo.gbc
 	fc baserom.gbc $<
 
 clean:
-	rm -f main.tx pokecrystal.o pokecrystal.gbc ${TEXTFILES}
+	rm -f main.tx pokecrystal-demo.o pokecrystal-demo.gbc ${TEXTFILES}
 
 winclean:
-	del main.tx pokecrystal.o pokecrystal.gbc .\text\sweethoney.tx .\text\phone\bill.tx .\text\phone\elm.tx .\text\phone\mom.tx .\text\phone\trainers1.tx .\text\common.tx .\text\common_2.tx .\text\common_3.tx
+	del main.tx pokecrystal-demo.o pokecrystal-demo.gbc .\text\sweethoney.tx .\text\phone\bill.tx .\text\phone\elm.tx .\text\phone\mom.tx .\text\phone\trainers1.tx .\text\common.tx .\text\common_2.tx .\text\common_3.tx
 
-pokecrystal.o: pokecrystal.asm constants.asm wram.asm ${TEXTFILES}
-	rgbasm -o pokecrystal.o pokecrystal.asm
+pokecrystal-demo.o: pokecrystal-demo.asm constants.asm wram.asm ${TEXTFILES}
+	rgbasm -o pokecrystal-demo.o pokecrystal-demo.asm
 	
 .asm.tx:
 	python preprocessor.py < $< > $@
 
-pokecrystal.gbc: pokecrystal.o
+pokecrystal-demo.gbc: pokecrystal-demo.o
 	rgblink -o $@ $<
 	rgbfix -Cjv -i BYTE -k 01 -l 0x33 -m 0x10 -p 0 -r 3 -t PM_CRYSTAL $@
 
