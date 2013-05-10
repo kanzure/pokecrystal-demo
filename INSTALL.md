@@ -49,7 +49,7 @@ make clean && make
 ```
 
 That will take between 3 and 15 seconds, depending on your computer. If you see
-`cmp baserom.gbc pokecrystal.gbc` as the last line, the build was successful! Rejoice!
+`cmp baserom.gbc pokecrystal-demo.gbc` as the last line, the build was successful! Rejoice!
 
 
 ## Windows
