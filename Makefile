@@ -26,10 +26,8 @@ HORIZGFX =	$(filter-out gfx/%.png, $(VERTGFX))
 # so take care to reorganize accordingly
 
 all: pokecrystal-demo.gbc
-	cmp baserom.gbc $<
 
 win: pokecrystal-demo.gbc
-	fc baserom.gbc $<
 
 clean:
 	rm -f main.tx pokecrystal-demo.o pokecrystal-demo.gbc ${TEXTFILES}
