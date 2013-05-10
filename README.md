@@ -1,8 +1,6 @@
-# Pokémon Crystal
+# pokecrystal-demo
 
-This is a hand-crafted disassembly of Pokémon Crystal.
-
-The source code in this project successfully converts back into a ROM image. All source code is meticulously commented.
+This is a hand-crafted ROM hack based on [Pokémon Crystal](https://github.com/kanzure/pokecrystal). You can read the original announcement [here](https://github.com/kanzure/pokecrystal-demo/wiki/Announcement).
 
 
 ## Base ROM
@@ -19,7 +17,8 @@ Eventually this will not be necessary.
 
 ## See also
 
-* disassembly of [Pokémon Red](http://bitbucket.org/iimarckus/pokered).
+* disassembly of [Pokémon Crystal)(https://github.com/kanzure/pokecrystal)
+* disassembly of [Pokémon Red](http://bitbucket.org/iimarckus/pokered)
 
 
 ## Contributing
@@ -29,4 +28,4 @@ using [mibbit](http://chat.mibbit.com/)).
 
 * Are we missing something? Make a pull request! Contributions are welcome.
 
-* Tackle some [issues](https://github.com/kanzure/pokecrystal/issues)!
+* Tackle some [issues](https://github.com/kanzure/pokecrystal-demo/issues)!
