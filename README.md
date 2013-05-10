@@ -17,7 +17,7 @@ Eventually this will not be necessary.
 
 ## See also
 
-* disassembly of [Pokémon Crystal)(https://github.com/kanzure/pokecrystal)
+* disassembly of [Pokémon Crystal](https://github.com/kanzure/pokecrystal)
 * disassembly of [Pokémon Red](http://bitbucket.org/iimarckus/pokered)
 
 
