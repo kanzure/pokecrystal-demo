@@ -319,10 +319,21 @@ NewBarkTown_MapEventHeader: ; 0x1a834d
 	signpost 3, 3, $0, MapNewBarkTownSignpost2Script
 	signpost 13, 9, $0, MapNewBarkTownSignpost3Script
 
-	; people-events
-	db 3
+db 5
 	person_event $29, 12, 10, $3, $1, 255, 255, $0, 0, UnknownScript_0x1a806f, $ffff
 	person_event $3a, 13, 16, $4, $10, 255, 255, $a0, 0, UnknownScript_0x1a809b, $ffff
 	person_event $4, 6, 7, $9, $0, 255, 255, $0, 0, UnknownScript_0x1a809e, $06bd
+	person_event $3a, 12, 16, $4, $10, 255, 255, $a0, 0, TysonsCoolScript, $ffff
+	person_event $01, 8, 5, $3, $1, 255 , 255, $0, 0, HunnyBooBoo, $ffff
 ; 0x1a83b2
 
+HunnyBooBoo:
+jumptextfaceplayer Jackie
+
+Jackie:
+db 0, "I'm dumb as fuck", $57
+TysonsCoolScript:
+	jumptextfaceplayer SomeBullshitText
+
+SomeBullshitText:
+	db 0, "oi sup", $57
