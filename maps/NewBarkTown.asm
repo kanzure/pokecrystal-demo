@@ -319,6 +319,7 @@ NewBarkTown_MapEventHeader: ; 0x1a834d
 	signpost 3, 3, $0, MapNewBarkTownSignpost2Script
 	signpost 13, 9, $0, MapNewBarkTownSignpost3Script
 
+	; people-events
 db 5
 	person_event $29, 12, 10, $3, $1, 255, 255, $0, 0, UnknownScript_0x1a806f, $ffff
 	person_event $3a, 13, 16, $4, $10, 255, 255, $a0, 0, UnknownScript_0x1a809b, $ffff
