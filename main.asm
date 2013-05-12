@@ -18429,6 +18429,7 @@ INCLUDE "maps/SilverCaveOutside.asm"
 INCLUDE "maps/Route10North.asm"
 
 INCLUDE "maps/WaterChuteWay.asm"
+INCLUDE "maps/ThirdCave.asm"
 
 SECTION "bank6D",DATA,BANK[$6D]
 
@@ -18656,6 +18657,9 @@ SECTION "bank7A",DATA,BANK[$7A]
 
 WaterChuteWay_BlockData:
 	INCBIN "maps/WaterChuteWay.blk"
+
+ThirdCave_BlockData:
+	INCBIN "maps/ThirdCave.blk"
 
 SECTION "bank7B",DATA,BANK[$7B]
 

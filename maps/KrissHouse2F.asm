@@ -140,7 +140,8 @@ KrissHouse2F_MapEventHeader: ; 0x7ac99
 
 	; warps
 	db 1
-	warp_def 0, 7, 1, 26, 11
+	warp_def 0, 7, 1, GROUP_WATERCHUTEWAY, MAP_WATERCHUTEWAY
+;	warp_def 0, 7, 1, GROUP_THIRDCAVE, MAP_THIRDCAVE
 
 	; xy triggers
 	db 0
