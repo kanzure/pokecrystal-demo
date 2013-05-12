@@ -95,6 +95,11 @@ Char55: ; $1345
 	pop de
 	jp NextChar
 
+Char4e:
+    ld a, $1
+    rst $18
+    jp $12a7
+
 SECTION "romheader",HOME[$100]
 Start:
 	nop
@@ -1322,7 +1327,7 @@ CheckDict: ; 1087
 	cp $4f
 	jp z, Char4f
 	cp $4e
-	jp z, $12a7
+	jp z, Char4e
 	cp $16
 	jp z, $12b9
 	and a
@@ -6581,8 +6586,13 @@ SetUpMenuItems: ; 4:6829 = 0x12829
 	ld a, $7
 	call AppendMenuList
 .no_exit
-	ld a, $3
-	call AppendMenuList
+    nop
+    nop
+    nop
+    nop
+    nop
+	;ld a, $3
+	;call AppendMenuList
 	ld a, [InLinkBattle]
 	and a
 	jr nz, .no_save
@@ -6594,10 +6604,16 @@ SetUpMenuItems: ; 4:6829 = 0x12829
 .write
 	call AppendMenuList
 .no_save
-	ld a, $5
-	call AppendMenuList
-	ld a, $6
-	call AppendMenuList
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
 	ld a, c
 	ld [MenuItemsList], a
 	ret
@@ -6641,8 +6657,13 @@ DrawMenuAccount: ; 4:68b4 0x128b4
 	jp TextBoxPalette
 
 IsMenuAccountOn: ; 0x128cb
-	ld a, [Options2]
-	and $1
+	;ld a, [Options2] ; 3
+	;and $1 2
+	nop
+	nop
+	nop
+	nop
+	xor a
 	ret
 ; 0x128d1
 
@@ -18769,13 +18790,13 @@ VWFFont:
     INCBIN "gfx/vwffont.1bpp"
     
 VWFTable:
-    db 8, 7, 7, 7, 6, 6, 7, 6, 6, 6, 8, 6, 8, 7, 7, 6
-    db 8, 7, 7, 6, 7, 8, 8, 8, 8, 8, 6, 6, 6, 6, 6, 6
-    db 7, 6, 6, 6, 6, 6, 6, 5, 2, 3, 5, 2, 6, 5, 6, 5
+    db 8, 7, 7, 7, 6, 6, 7, 6, 6, 6, 6, 6, 8, 7, 7, 6
+    db 8, 7, 7, 6, 7, 8, 8, 8, 8, 6, 6, 6, 6, 6, 6, 6
+    db 7, 6, 6, 6, 6, 6, 6, 5, 2, 4, 5, 2, 6, 5, 6, 5
     db 5, 5, 5, 5, 5, 6, 6, 6, 5, 5, 0, 0, 0, 0, 0, 0
     db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-    db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 7, 8, 6, 5, 8
-    db 3, 8, 8, 7, 7, 8, 8, 7, 4, 8, 6, 8, 8, 8, 8, 8
+    db 6, 5, 8, 8, 7, 7, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    db 3, 8, 8, 7, 0, 0, 6, 3, 4, 8, 6, 8, 8, 8, 8, 8
     db 8, 8, 8, 8, 4, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8
 
 WaitDMA:
@@ -18929,7 +18950,7 @@ WriteChar:
     rr c
 .ShiftB
     rrc b
-   ld a, [VWFCharWidth]
+    ld a, [VWFCharWidth]
     dec a
     ld [VWFCharWidth], a
     jr nz, .DoColumnTile2
@@ -18978,7 +18999,17 @@ WriteChar:
     pop hl
     ld a, [VWFCurTileNum]
     add $80
+    ;push af
     ld [hl], a
+    
+    ;ld a, [VWFCurTileCol]
+    ;cp $01
+    ;pop af
+    ;jr nz, .notover
+    ;inc hl
+    ;inc a
+    ;ld [hl], a
+.notover
     push hl
 
 
@@ -19018,7 +19049,7 @@ WriteChar:
 .SecondAreaUnused
     ; If we went over the last character allocated for VWF tiles, wrap around.
     ld a, [VWFCurTileNum]
-    cp $60 ; may need tweaking
+    cp $e9-$80 ; may need tweaking
     jr c, .AlmostDone
     ld a, $00
     ld [VWFCurTileNum], a ; Prevent overflow
