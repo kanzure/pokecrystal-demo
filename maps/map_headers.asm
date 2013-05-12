@@ -4324,17 +4324,6 @@ Route30BerrySpeechHouse_MapHeader: ; 0x94dbd
 	db $4, $26, 1, 1
 ; 0x94dc6
 
-MrPokemonsHouse_MapHeader: ; 0x94dc6
-	; bank, tileset, permission
-	db $25, $b, 3
-
-	; second map header
-	dw MrPokemonsHouse_SecondMapHeader
-
-	; location on world map, music, time of day, fishing group
-	db $4, $26, 1, 1
-; 0x94dcf
-
 WaterChuteWay_MapHeader:
 	; bank, tileset, permission
 	db BANK(WaterChuteWay_SecondMapHeader), $2, 3
@@ -4344,4 +4333,14 @@ WaterChuteWay_MapHeader:
 
 	; location on world map, music, time of day, fishing group
 	db $5, $26, 1, 1
+
+ThirdCave_MapHeader:
+	; bank, tileset, permission
+	db BANK(ThirdCave_SecondMapHeader), $18, 3
+
+	; second map header
+	dw ThirdCave_SecondMapHeader
+
+	; location on world map, music, time of day, fishing group
+	db $a, $26, 18, 3
 

@@ -18428,8 +18428,6 @@ INCLUDE "text/common.tx"
 INCLUDE "maps/SilverCaveOutside.asm"
 INCLUDE "maps/Route10North.asm"
 
-INCLUDE "maps/WaterChuteWay.asm"
-
 SECTION "bank6D",DATA,BANK[$6D]
 
 INCLUDE "text/phone/mom.tx"
@@ -18437,6 +18435,8 @@ INCLUDE "text/phone/bill.tx"
 INCLUDE "text/phone/elm.tx"
 INCLUDE "text/phone/trainers1.tx"
 
+INCLUDE "maps/WaterChuteWay.asm"
+INCLUDE "maps/ThirdCave.asm"
 
 SECTION "bank6E",DATA,BANK[$6E]
 
@@ -18656,6 +18656,9 @@ SECTION "bank7A",DATA,BANK[$7A]
 
 WaterChuteWay_BlockData:
 	INCBIN "maps/WaterChuteWay.blk"
+
+ThirdCave_BlockData:
+	INCBIN "maps/ThirdCave.blk"
 
 SECTION "bank7B",DATA,BANK[$7B]
 
