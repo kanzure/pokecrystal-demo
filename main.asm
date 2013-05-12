@@ -5686,23 +5686,29 @@ CheckPartyMove: ; c742
 INCBIN "baserom.gbc", $c779, $c986 - $c779
 
 UsedSurfScript: ; c986
-; print "[MON] used SURF!"
-	2writetext UsedSurfText
-	closetext
-	loadmovesprites
-; this does absolutely nothing
-	3callasm BANK(Functionc9a2), Functionc9a2
+
 ; write surftype to PlayerState
 	copybytetovar $d1eb ; Buffer2
 	writevarcode VAR_MOVEMENT
-; update sprite tiles
+; update the player sprite
 	special SPECIAL_UPDATESPRITETILES
-; start surf music
-	special SPECIAL_BIKESURFMUSIC
 ; step into the water
 	special SPECIAL_LOADFACESTEP ; (slow_step_x, step_end)
 	applymovement $00, $d007 ; PLAYER, MovementBuffer
 	end
+
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
 ; c9a2
 
 Functionc9a2: ; c9a2
@@ -5777,58 +5783,63 @@ CheckSurfOW: ; c9e7
 ; check if you can surf
 ; return carry if conditions are met
 
-; can we surf?
+; Are you already surfing?
 	ld a, [PlayerState]
-	; are you already surfing (pikachu)?
 	cp PLAYER_SURF_PIKA
 	jr z, .quit
-	; are you already surfing (normal)?
 	cp PLAYER_SURF
 	jr z, .quit
-	; are you facing a surf tile?
-	ld a, [$d03e] ; buffer for the tile you are facing (used for other things too)
+
+; Are you facing a surf tile?
+	ld a, [$d03e] ; PlayerFaceTile
 	call GetTileType
 	cp $01 ; surfable
 	jr nz, .quit
-	; does this contradict tile permissions?
+
+; Does it contradict tile permissions?
 	call CheckDirection
 	jr c, .quit
-	; do you have fog badge?
-	ld de, $001e ; FLAG_FOG_BADGE
-	call CheckFlag2
-	jr c, .quit
-	; do you have a monster with surf?
-	ld d, SURF
-	call CheckPartyMove
-	jr c, .quit
-	; can you get off the bike (cycling road)?
+
+; Can you get off the bike (cycling road)?
 	ld hl, $dbf5 ; overworld flags
 	bit 1, [hl] ; always on bike (can't surf)
 	jr nz, .quit
-	
-; load surftype into MovementType
+
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+
+; Run UsedSurfScript
 	call GetSurfType
 	ld [$d1eb], a ; MovementType
-	
-; get surfmon nick
+
+	xor a ; TODO: Get SurfMon here.
+	ld [CurPartyMon], a
 	call GetPartyNick
-	
-; run AskSurfScript
-	ld a, BANK(AskSurfScript)
-	ld hl, AskSurfScript
+
+	ld a, BANK(UsedSurfScript)
+	ld hl, UsedSurfScript
 	call PushScriptPointer
 
-; conditions were met
+; We're surfing
 	scf
 	ret
-	
+
 .quit
-; conditions were not met
 	xor a
 	ret
 ; ca2c
 
 AskSurfScript: ; ca2c
+; Now unused.
 	loadfont
 	2writetext AskSurfText
 	yesorno
