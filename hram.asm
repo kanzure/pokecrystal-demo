@@ -62,3 +62,4 @@ hDMATransfer       EQU $ffe8
 hBankOld           EQU $ffe9
 hBankNew           EQU $ffea
 hTempA             EQU $ffeb
+hChar              EQU $ffec

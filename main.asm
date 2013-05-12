@@ -62,6 +62,18 @@ Rst18Cont:
 	ld a, [hTempA]
 	ret
 
+PlaceStringAdvice:
+    ld a, $1
+    rst $18
+	push hl ; orig
+	jp PlaceNextChar
+
+PlaceNextCharAdvice:
+    ld a, [de] ; 1
+	cp "@" ; 2
+	jp nz, CheckDict ; 2 -> 3
+	jp PlaceNextCharPointcut
+
 SECTION "romheader",HOME[$100]
 Start:
 	nop
@@ -1266,14 +1278,13 @@ PrintTextBoxText: ; 1065
 
 INCBIN "baserom.gbc", $106c, $1078 - $106c
 
-
+; Hacking this up a bit so I can insert a pointcut.
 PlaceString: ; 1078
-	push hl
+    jp PlaceStringAdvice ; 3, prev 1
 
 PlaceNextChar: ; 1079
-	ld a, [de]
-	cp "@"
-	jr nz, CheckDict
+	jp PlaceNextCharAdvice
+PlaceNextCharPointcut:
 	ld b, h
 	ld c, l
 	pop hl
@@ -1393,8 +1404,11 @@ CheckDict: ; 1087
 	ld b, $e4
 	call $13c6
 .asm_1174
-	ld [hli], a
-	call PrintLetterDelay
+    ld [hChar], a ; 2
+    xor a ; 1
+    rst $18 ; 1
+	;ld [hli], a ; 1
+	;call PrintLetterDelay ; 3
 	jp NextChar
 ; 0x117b
 
@@ -19434,10 +19448,266 @@ HackPredef:
     ;ld h, a
 
 HackPredefTable:
-    dw NothingAdvice ; 0
+    dw WriteCharAdvice ; 0
+    dw ResetVWF
 
-NothingAdvice:
+WriteCharAdvice:
+    ld a, [hChar]
+    call WriteChar
     ret
+
+VWFFont:
+    INCBIN "gfx/vwffont.1bpp"
+    
+VWFTable:
+    db 8, 7, 7, 7, 6, 6, 7, 6, 6, 6, 8, 6, 8, 7, 7, 6
+    db 8, 7, 7, 6, 7, 8, 8, 8, 8, 8, 6, 6, 6, 6, 6, 6
+    db 7, 6, 6, 6, 6, 6, 6, 5, 2, 3, 5, 2, 6, 5, 6, 5
+    db 5, 5, 5, 5, 5, 6, 6, 6, 5, 5, 0, 0, 0, 0, 0, 0
+    db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 7, 8, 6, 5, 8
+    db 3, 8, 8, 7, 7, 8, 8, 7, 4, 8, 6, 8, 8, 8, 8, 8
+    db 8, 8, 8, 8, 4, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8
+
+WaitDMA:
+    ; wait until DMA completes
+    ld a, [$FF55]
+    bit 7, a
+    jr z, WaitDMA
+    ret
+
+ResetVWF:
+    push af
+    push hl
+    xor a
+    ;ld [W_VWF_LETTERNUM], a
+    ;ld [W_VWF_CURTILENUM], a
+    ld [VWFCurTileRow], a
+    ld [VWFCurTileCol], a
+    ld hl, VWFCurTileNum
+    inc [hl]
+    ;ld [W_VWF_CURROW], a ; This should probably be reset elsewhere..
+    ;ld de, $8ba0
+    ;ld hl, $7000 ; look at me I'm copying zeros
+    ;ld c, $8f
+    ;call DoDMA
+    ;call WaitDMA
+    ;ld de, $8ca0
+    ;call DoDMA
+    ;call WaitDMA
+    ;ld de, $8da0
+    ;ld c, $82
+    ;call DoDMA
+    ;ld c, $24
+    ;ld b, 0
+    ;call DelayFrame
+    ;ld a, 0
+    ;call ByteFill ; bc*a starting at hl
+    pop hl
+    pop af
+	ret
+
+CopyColumn:
+    ; b = source column
+    ; c = dest column
+    ; de = source number
+    ; hl = dest number
+    push hl
+    push de
+    ld a, $08
+    ld [VWFCurTileRow], a
+.Copy
+    ld a, [de]
+    and a, b
+    jr nz, .CopyOne
+.CopyZero
+    ld a, %11111111
+    xor c
+    and [hl]
+    jp .Next
+.CopyOne
+    ld a, c
+    or [hl]
+.Next
+    ld [hli],a
+    inc de
+    ld a, [VWFCurTileRow]
+    dec a
+    ld [VWFCurTileRow], a
+    jp nz, .Copy
+    pop de
+    pop hl
+    ret
+
+WriteChar:
+    push de
+    push hl
+    ld [VWFChar], a
+    ; Store the original tile location.
+    push hl
+    pop de
+    ld hl, VWFTileLoc
+    ld [hl], d
+    inc hl
+    ld [hl], e
+    
+    ; Check if VWF is enabled, bail if not.
+    ;ld a, [W_VWF_ENABLED]
+    ;dec a
+    
+    ; Store the character tile in BuildArea0.
+    sub a, $80
+    ld hl, VWFFont
+    ld b, 0
+    ld c, a
+    ld a, $8
+    call AddNTimes
+    ld bc, $0008
+    ld de, VWFBuildArea0
+    call CopyBytes ; copy bc source bytes from hl to de
+    
+    ld a, $1
+    ld [VWFNumTilesUsed], a
+    
+    ; Get the character length from the width table.
+    ; Space is a special case.
+    ld a, [VWFChar]
+    sub a, $80
+    cp a, $ff
+    jr nz, .NotSpace
+    ld a, $05
+    ld [VWFCharWidth], a
+    jp .WidthWritten
+.NotSpace
+    ld c, a
+    ld b, $00
+    ld hl, VWFTable
+    add hl, bc
+    ld a, [hl]
+    ld [VWFCharWidth], a
+.WidthWritten
+    ; Set up some things for building the tile.
+    ; Special cased to fix column $0, which is invalid (not a power of 2)
+    ld de, VWFBuildArea0
+    ld hl, VWFBuildArea2
+    ;ld b, a
+    ld b, %10000000
+    ld a, [VWFCurTileCol]
+    and a
+    jr nz, .ColumnIsFine
+    ld a, $80
+.ColumnIsFine
+    ld c, a ; a
+.DoColumn
+    ; Copy the column.
+    call CopyColumn
+    rr c
+    jr c, .TileOverflow
+    rrc b
+    ld a, [VWFCharWidth]
+    dec a
+    ld [VWFCharWidth], a
+    jr nz, .DoColumn 
+    jr .Done
+.TileOverflow
+    ld c, $80
+    ld a, $2
+    ld [VWFNumTilesUsed], a
+    ld hl, VWFBuildArea3
+    jr .ShiftB
+.DoColumnTile2
+    call CopyColumn
+    rr c
+.ShiftB
+    rrc b
+   ld a, [VWFCharWidth]
+    dec a
+    ld [VWFCharWidth], a
+    jr nz, .DoColumnTile2
+.Done
+    ld a, c
+    ld [VWFCurTileCol], a
+    
+    ;ld de, W_VWF_BUILDAREA1
+    ;ld hl, W_VWF_BUILDAREA3
+
+    ; 1bpp -> 2bpp
+    ld b, 0
+    ld c, $10
+    ld hl, VWFBuildArea2
+    ;call DelayFrame
+    ld de, VWFCopyArea
+    call FarCopyBytesDouble ; copy bc*2 bytes from a:hl to de ; XXX don't far
+
+    ; Get the tileset offset.
+    ld hl, $8800 ; $8ba0
+    ld a, [VWFCurTileNum]
+    ld b, $0
+    ld c, a
+    ld a, 16
+    call AddNTimes
+    
+    push hl
+    pop de
+    
+    ; Write the new tile(s)
+    ; Let's try DMA instead!
+
+    ld hl, VWFCopyArea
+    ld a, h
+    ld [$ff51], a
+    ld a, l
+    ld [$ff52], a
+    ld a, d
+    ld [$ff53], a
+    ld a, e
+    ld [$ff54], a
+    ld a, $81
+    ld [$ff55], a
+
+
+    ld a, [VWFNumTilesUsed]
+    dec a
+    dec a
+    jr nz, .SecondAreaUnused
+    
+    ; If we went over one tile, make sure we start with it next time
+    ld a, [VWFCurTileNum]
+    inc a
+    ld [VWFCurTileNum], a
+    ld a, $00
+    ld hl, VWFBuildArea3
+    ld de, VWFBuildArea2
+    ld bc, $0008
+    call CopyBytes
+    ld hl, VWFBuildArea3
+    ld a, $0
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a ; lazy
+    
+
+.SecondAreaUnused
+    ; If we went over the last character allocated for VWF tiles, wrap around.
+    ld a, [VWFCurTileNum]
+    cp $60 ; may need tweaking
+    jr c, .AlmostDone
+    ld a, $00
+    ld [VWFCurTileNum], a ; Prevent overflow
+.AlmostDone
+    call WaitDMA
+    pop hl
+    ld a, [VWFCurTileNum]
+    add $80
+    ld [hli], a
+    pop de
+    ret
+    
 
 SECTION "bank7A",DATA,BANK[$7A]
 
