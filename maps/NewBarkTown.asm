@@ -293,7 +293,7 @@ UnknownText_0x1a8332: ; 0x1a8332
 ; 0x1a8340
 
 UnknownText_0x1a8340: ; 0x1a8340
-	db $0, "ELM'S HOUSE", $57
+	db $0, "ELM'S PLACE", $57
 ; 0x1a834d
 
 NewBarkTown_MapEventHeader: ; 0x1a834d
