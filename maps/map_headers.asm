@@ -4236,16 +4236,15 @@ Route30_MapHeader: ; 0x94d75
 	db $4, $2b, 0, 4
 ; 0x94d7e
 
-Route31_MapHeader: ; 0x94d7e
-	; bank, tileset, permission
-	db BANK(Route31_SecondMapHeader), $1, 2
-
+StarterCity_MapHeader:
+    ; bank, tileset, permission
+	db BANK(StarterCity_SecondMapHeader), $1, 3
+	
 	; second map header
-	dw Route31_SecondMapHeader
-
+	dw StarterCity_SecondMapHeader
+	
 	; location on world map, music, time of day, fishing group
-	db $5, $2b, 0, 4
-; 0x94d87
+	db $c, $26, 1, 1
 
 CherrygroveCity_MapHeader: ; 0x94d87
 	; bank, tileset, permission
@@ -4313,17 +4312,6 @@ CherrygroveEvolutionSpeechHouse_MapHeader: ; 0x94db4
 	db $3, $26, 1, 1
 ; 0x94dbd
 
-Route30BerrySpeechHouse_MapHeader: ; 0x94dbd
-	; bank, tileset, permission
-	db BANK(Route30BerrySpeechHouse_SecondMapHeader), $5, 3
-
-	; second map header
-	dw Route30BerrySpeechHouse_SecondMapHeader
-
-	; location on world map, music, time of day, fishing group
-	db $4, $26, 1, 1
-; 0x94dc6
-
 WaterChuteWay_MapHeader:
 	; bank, tileset, permission
 	db BANK(WaterChuteWay_SecondMapHeader), $2, 3
@@ -4344,13 +4332,5 @@ ThirdCave_MapHeader:
 	; location on world map, music, time of day, fishing group
 	db $a, $26, 18, 3
 
-StarterCity_MapHeader:
-    ; bank, tileset, permission
-	db BANK(StarterCity_SecondMapHeader), $1, 3
-	
-	; second map header
-	dw StarterCity_SecondMapHeader
-	
-	; location on world map, music, time of day, fishing group
-	db $c, $26, 1, 1
+
 	
