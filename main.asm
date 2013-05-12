@@ -65,6 +65,9 @@ Rst18Cont:
 PlaceStringAdvice:
     ld a, $1
     rst $18
+    ld a, [StringDepth]
+    inc a
+    ld [StringDepth], a
 	push hl ; orig
 	jp PlaceNextChar
 
@@ -72,18 +75,27 @@ PlaceNextCharAdvice:
     ld a, [de] ; 1
 	cp "@" ; 2
 	jp nz, CheckDict ; 2 -> 3
+	
+	ld b, h
+	ld c, l
+	pop hl
+	ld a, $5
+	rst $18
+	ret
+	pop de
+
 	jp PlaceNextCharPointcut
 
-Char4f: ; 12ea
-    ld a, $1
+Char4f: ; 12ea ; newline char
+    ld a, $4
     rst $18
 	pop hl
 	ld hl, $c5e1
 	push hl
 	jp NextChar
 
-Char55: ; $1345
-    ld a, $1
+Char55: ; $1345 ; newline char
+    ld a, $4
     rst $18
 	push de
 	ld de, $1354
@@ -95,10 +107,24 @@ Char55: ; $1345
 	pop de
 	jp NextChar
 
-Char4e:
-    ld a, $1
+Char4e: ; newline char
+    ld a, $4
     rst $18
     jp $12a7
+
+Char57: ; end char
+	ld a, $5
+	rst $18
+    jp $137c
+Char58: ; end char
+	ld a, $5
+	rst $18
+    jp $135a
+
+Char51: ; newline char
+    ld a, $4
+    rst $18
+    jp Char51_
 
 SECTION "romheader",HOME[$100]
 Start:
@@ -1311,12 +1337,11 @@ PlaceString: ; 1078
 PlaceNextChar: ; 1079
 	jp PlaceNextCharAdvice
 PlaceNextCharPointcut:
-	ld b, h
-	ld c, l
-	pop hl
-	ret
-	pop de
-
+    nop
+    nop
+    nop
+    nop
+    nop
 NextChar: ; 1083
 	inc de
 	jp PlaceNextChar
@@ -1373,9 +1398,9 @@ CheckDict: ; 1087
 	cp $56
 	jp z, $11d3
 	cp $57
-	jp z, $137c
+	jp z, Char57
 	cp $58
-	jp z, $135a
+	jp z, Char58
 	cp $4a
 	jp z, $11da
 	cp $24
@@ -1526,7 +1551,7 @@ Char4fOld: ; 12ea
 	push hl
 	jp NextChar
 
-Char51 ; 0x12f2
+Char51_ ; 0x12f2
 	push de
 	ld a, [$c2dc]
 	cp $3
@@ -18820,9 +18845,11 @@ HackPredef:
 
 HackPredefTable:
     dw WriteCharAdvice ; 0
-    dw ResetVWF
+    dw ResetVWFString
     dw NamingScreenDisableVWF
     dw NamingScreenEnableVWF
+    dw ResetVWFNewline
+    dw DecStringDepth
 
 WriteCharAdvice:
     ld a, [VWFDisabled]
@@ -18886,6 +18913,15 @@ ResetVWF:
     pop hl
     pop af
 	ret
+
+ResetVWFString:
+    ld a, [StringDepth] ; if not substring
+    and a
+    jr z, ResetVWF
+    ret
+    
+ResetVWFNewline:
+    jr ResetVWF
 
 CopyColumn:
     ; b = source column
@@ -19109,7 +19145,7 @@ WriteChar:
     pop de
     ret
     
-NamingScreenDisableVWF
+NamingScreenDisableVWF:
     ld a, 1
     ld [VWFDisabled], a
     
@@ -19117,11 +19153,17 @@ NamingScreenDisableVWF
     ret
 
 
-NamingScreenEnableVWF
+NamingScreenEnableVWF:
     xor a
     ld [VWFDisabled], a
     
     call $092f ; original code
+    ret
+
+DecStringDepth:
+    ld a, [StringDepth]
+    dec a
+    ld [StringDepth], a
     ret
 
 SECTION "bank7A",DATA,BANK[$7A]

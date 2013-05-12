@@ -39,6 +39,10 @@ VWFCharWidth:
 ;    ds 1
 VWFDisabled:
     ds 1
+StringDepth:
+    ds 1
+
+    ds 2
 
 VWFBuildArea0:
     ds 8
