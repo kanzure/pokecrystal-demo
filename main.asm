@@ -74,6 +74,27 @@ PlaceNextCharAdvice:
 	jp nz, CheckDict ; 2 -> 3
 	jp PlaceNextCharPointcut
 
+Char4f: ; 12ea
+    ld a, $1
+    rst $18
+	pop hl
+	ld hl, $c5e1
+	push hl
+	jp NextChar
+
+Char55: ; $1345
+    ld a, $1
+    rst $18
+	push de
+	ld de, $1354
+	ld b, h
+	ld c, l
+	call $1078
+	ld h, b
+	ld l, c
+	pop de
+	jp NextChar
+
 SECTION "romheader",HOME[$100]
 Start:
 	nop
@@ -1494,7 +1515,7 @@ Char5AText: ; 0x1295
 
 INCBIN "baserom.gbc", $129c, $12ea - $129c
 
-Char4f: ; 12ea
+Char4fOld: ; 12ea
 	pop hl
 	ld hl, $c5e1
 	push hl
@@ -1515,8 +1536,12 @@ Char51 ; 0x12f2
 	ld bc, $0312
 	call ClearBox
 	call $13cd
-	ld c, $14
-	call DelayFrames
+	nop
+	nop
+	ld a, 1
+	rst $18
+	;ld c, $14
+	;call DelayFrames
 	ld hl, $c5b9
 	pop de
 	jp NextChar
@@ -1524,7 +1549,7 @@ Char51 ; 0x12f2
 
 INCBIN "baserom.gbc", $131f, $1345 - $131f
 
-Char55: ; $1345
+Char55Old: ; $1345
 	push de
 	ld de, $1354
 	ld b, h
@@ -18949,13 +18974,21 @@ WriteChar:
     ld a, $81
     ld [$ff55], a
 
+    ; write to tilemap
+    pop hl
+    ld a, [VWFCurTileNum]
+    add $80
+    ld [hl], a
+    push hl
+
 
     ld a, [VWFNumTilesUsed]
     dec a
     dec a
     jr nz, .SecondAreaUnused
     
-    ; If we went over one tile, make sure we start with it next time
+    ; If we went over one tile, make sure we start with it next time.
+    ; also move through the tilemap.
     ld a, [VWFCurTileNum]
     inc a
     ld [VWFCurTileNum], a
@@ -18975,6 +19008,12 @@ WriteChar:
     ld [hli], a
     ld [hli], a ; lazy
     
+    pop hl
+    inc hl
+    ld a, [VWFCurTileNum]
+    add $80
+    ld [hl], a
+    push hl
 
 .SecondAreaUnused
     ; If we went over the last character allocated for VWF tiles, wrap around.
@@ -18986,9 +19025,6 @@ WriteChar:
 .AlmostDone
     call WaitDMA
     pop hl
-    ld a, [VWFCurTileNum]
-    add $80
-    ld [hli], a
     pop de
     ret
     

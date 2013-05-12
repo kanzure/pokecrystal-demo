@@ -14,12 +14,44 @@ VBGMap1:
 ; Any bank 2-7 labels are in constants.asm.
 
 
-SECTION "stack",BSS[$c000]
+SECTION "hack",BSS[$c000]
 TempH:
     ds 1
 TempL:
     ds 1
-	ds 254
+VWFLetterNum:
+    ds 1
+VWFChar:
+    ds 1
+VWFTileLoc:
+    ds 2
+VWFCurTileNum:
+    ds 1
+VWFCurTileCol:
+    ds 1
+VWFCurTileRow:
+    ds 1
+VWFNumTilesUsed:
+    ds 1
+VWFCharWidth:
+    ds 1
+VWFCurRow:
+    ds 1
+VWFEnabled:
+    ds 1
+
+VWFBuildArea0:
+    ds 8
+VWFBuildArea1:
+    ds 8
+VWFBuildArea2:
+    ds 8
+VWFBuildArea3:
+    ds 8
+SECTION "vwfcopy",BSS[$c050]
+VWFCopyArea:
+    
+SECTION "stack",BSS[$c100]
 Stack: ; c100
 
 
