@@ -245,7 +245,7 @@ UnknownText_0x1a81c4: ; 0x1a81c4
 
 UnknownText_0x1a81f2: ; 0x1a81f2
 	db $0, "Hi, ", $14, "!", $4f
-	db "Leaving again?", $51
+	db "Leaving so again?", $51
 	db "You should tell", $4f
 	db "your mom if you", $55
 	db "are leaving.", $57
@@ -293,7 +293,7 @@ UnknownText_0x1a8332: ; 0x1a8332
 ; 0x1a8340
 
 UnknownText_0x1a8340: ; 0x1a8340
-	db $0, "ELM'S HOUSE", $57
+	db $0, "ELM'S PLACE", $57
 ; 0x1a834d
 
 NewBarkTown_MapEventHeader: ; 0x1a834d
