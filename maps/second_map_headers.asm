@@ -8834,25 +8834,24 @@ CherrygroveEvolutionSpeechHouse_SecondMapHeader: ; 0x96680
 	db 0
 ; 0x9668c
 
-Route30BerrySpeechHouse_SecondMapHeader: ; 0x9668c
+Meadow_SecondMapHeader:
 	; border block
-	db $0
+	db 113
 
 	; height, width
-	db ROUTE_30_BERRY_SPEECH_HOUSE_HEIGHT, ROUTE_30_BERRY_SPEECH_HOUSE_WIDTH
+	db 20, 20
 
 	; blockdata (bank-then-pointer)
-	dbw BANK(OlivineVoltorbHouse_BlockData), OlivineVoltorbHouse_BlockData
+	dbw BANK(Meadow_BlockData), Meadow_BlockData
 
 	; script header (bank-then-pointer)
-	dbw BANK(Route30BerrySpeechHouse_MapScriptHeader), Route30BerrySpeechHouse_MapScriptHeader
+	dbw BANK(Meadow_MapScriptHeader), Meadow_MapScriptHeader
 
-	; map event header (bank-then-pointer)
-	dw Route30BerrySpeechHouse_MapEventHeader
+	; map event header
+	dw Meadow_MapEventHeader
 
 	; connections
 	db 0
-; 0x96698
 
 WaterChuteWay_SecondMapHeader:
 	; border block
