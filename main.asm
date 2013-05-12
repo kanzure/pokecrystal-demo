@@ -13996,7 +13996,6 @@ GoldenrodDeptStoreRoof_BlockData: ; 0xb1b22
 	INCBIN "maps/GoldenrodDeptStoreRoof.blk"
 ; 0xb1b42
 
-
 SECTION "bank2D",DATA,BANK[$2D]
 
 Tileset21GFX: ; 0xb4000
@@ -18429,6 +18428,7 @@ INCLUDE "text/common.tx"
 INCLUDE "maps/SilverCaveOutside.asm"
 INCLUDE "maps/Route10North.asm"
 
+INCLUDE "maps/WaterChuteWay.asm"
 
 SECTION "bank6D",DATA,BANK[$6D]
 
@@ -18654,6 +18654,8 @@ SECTION "bank79",DATA,BANK[$79]
 
 SECTION "bank7A",DATA,BANK[$7A]
 
+WaterChuteWay_BlockData:
+	INCBIN "maps/WaterChuteWay.blk"
 
 SECTION "bank7B",DATA,BANK[$7B]
 
