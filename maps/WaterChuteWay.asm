@@ -17,7 +17,7 @@ WaterChuteWay_MapEventHeader:
 	db 1
 
 	; cave, feel free to warp somewhere useful
-	warp_def 37, 3, 1, GROUP_ELMS_LAB, MAP_ELMS_LAB
+	warp_def 3, 37, 1, GROUP_ELMS_LAB, MAP_ELMS_LAB
 
 	; xy triggers
 	db 0
