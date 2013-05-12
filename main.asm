@@ -9306,7 +9306,7 @@ ContinueText: ; 0x49d24
 NewGameText: ; 0x49d2d
 	db "NEW GAME@"
 OptionText: ; 0x49d36
-	db "OPTION@"
+	db "@@@@@@@"
 MysteryGiftText: ; 0x49d3d
 	db "MYSTERY GIFT@"
 MobileText: ; 0x49d4a
@@ -9323,13 +9323,13 @@ Label49d60: ; 0x49d60
 	dw $6496 ; XXX is this MobileStudiumASM?
 
 NewGameMenu: ; 0x49d6c
-	db 2
+	db 1
 	db NEW_GAME
 	db OPTION
 	db $ff
 
 ContinueMenu: ; 0x49d70
-	db 3
+	db 2
 	db CONTINUE
 	db NEW_GAME
 	db OPTION
@@ -18884,14 +18884,7 @@ VWFFont:
     INCBIN "gfx/vwffont.1bpp"
     
 VWFTable:
-    db 8, 7, 7, 7, 6, 6, 7, 6, 6, 6, 6, 6, 8, 7, 7, 6
-    db 8, 7, 7, 6, 7, 8, 8, 8, 8, 6, 6, 6, 6, 6, 6, 6
-    db 7, 6, 6, 6, 6, 6, 6, 5, 2, 4, 5, 2, 6, 5, 6, 5
-    db 5, 5, 5, 5, 5, 6, 6, 6, 5, 5, 0, 0, 0, 0, 0, 0
-    db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-    db 6, 5, 8, 8, 7, 7, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0
-    db 3, 8, 8, 7, 0, 0, 6, 3, 4, 8, 6, 8, 8, 8, 8, 8
-    db 8, 8, 8, 8, 4, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8
+    INCLUDE "text/vwftable.asm" ; maybe move it
 
 WaitDMA:
     ; wait until DMA completes
