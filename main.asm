@@ -1,7 +1,7 @@
 SECTION "bank0",HOME
 SECTION "rst0",HOME[$0]
-	di
-	jp Start
+    di
+    jp Start
 
 SECTION "rst8",HOME[$8] ; FarCall
 	jp FarJpHl
@@ -11,8 +11,9 @@ SECTION "rst10",HOME[$10] ; Bankswitch
 	ld [MBC3RomBank], a
 	ret
 
-SECTION "rst18",HOME[$18] ; Unused
-	rst $38
+SECTION "rst18",HOME[$18] ; HackPredef
+    ld [hTempA], a ; 3
+	jp Rst18Cont
 
 SECTION "rst20",HOME[$20] ; Unused
 	rst $38
@@ -48,6 +49,82 @@ SECTION "serial",HOME[$58] ; serial interrupt
 
 SECTION "joypad",HOME[$60] ; joypad interrupt
 	jp JoypadInt
+
+Rst18Cont:
+    ld a, [hROMBank]
+	ld [hBankOld],a
+	ld a, BANK(HackPredef)
+	rst Bankswitch
+    call HackPredef
+    ld [hTempA], a
+    ld a, [hBankOld]
+	rst Bankswitch
+	ld a, [hTempA]
+	ret
+
+PlaceStringAdvice:
+    ld a, $1
+    rst $18
+    ld a, [StringDepth]
+    inc a
+    ld [StringDepth], a
+	push hl ; orig
+	jp PlaceNextChar
+
+PlaceNextCharAdvice:
+    ld a, [de] ; 1
+	cp "@" ; 2
+	jp nz, CheckDict ; 2 -> 3
+	
+	ld b, h
+	ld c, l
+	pop hl
+	ld a, $5
+	rst $18
+	ret
+	pop de
+
+	jp PlaceNextCharPointcut
+
+Char4f: ; 12ea ; newline char
+    ld a, $4
+    rst $18
+	pop hl
+	ld hl, $c5e1
+	push hl
+	jp NextChar
+
+Char55: ; $1345 ; newline char
+    ld a, $4
+    rst $18
+	push de
+	ld de, $1354
+	ld b, h
+	ld c, l
+	call $1078
+	ld h, b
+	ld l, c
+	pop de
+	jp NextChar
+
+Char4e: ; newline char
+    ld a, $4
+    rst $18
+    jp $12a7
+
+Char57: ; end char
+	ld a, $5
+	rst $18
+    jp $137c
+Char58: ; end char
+	ld a, $5
+	rst $18
+    jp $135a
+
+Char51: ; newline char
+    ld a, $4
+    rst $18
+    jp Char51_
 
 SECTION "romheader",HOME[$100]
 Start:
@@ -1253,20 +1330,18 @@ PrintTextBoxText: ; 1065
 
 INCBIN "baserom.gbc", $106c, $1078 - $106c
 
-
+; Hacking this up a bit so I can insert a pointcut.
 PlaceString: ; 1078
-	push hl
+    jp PlaceStringAdvice ; 3, prev 1
 
 PlaceNextChar: ; 1079
-	ld a, [de]
-	cp "@"
-	jr nz, CheckDict
-	ld b, h
-	ld c, l
-	pop hl
-	ret
-	pop de
-
+	jp PlaceNextCharAdvice
+PlaceNextCharPointcut:
+    nop
+    nop
+    nop
+    nop
+    nop
 NextChar: ; 1083
 	inc de
 	jp PlaceNextChar
@@ -1277,7 +1352,7 @@ CheckDict: ; 1087
 	cp $4f
 	jp z, Char4f
 	cp $4e
-	jp z, $12a7
+	jp z, Char4e
 	cp $16
 	jp z, $12b9
 	and a
@@ -1286,8 +1361,8 @@ CheckDict: ; 1087
 	jp z, $1337
 	cp $4b
 	jp z, $131f
-	cp $51 ; Player name
-	jp z, $12f2
+	cp $51
+	jp z, Char51
 	cp $49
 	jp z, $1186
 	cp $52 ; Mother name
@@ -1323,9 +1398,9 @@ CheckDict: ; 1087
 	cp $56
 	jp z, $11d3
 	cp $57
-	jp z, $137c
+	jp z, Char57
 	cp $58
-	jp z, $135a
+	jp z, Char58
 	cp $4a
 	jp z, $11da
 	cp $24
@@ -1380,8 +1455,11 @@ CheckDict: ; 1087
 	ld b, $e4
 	call $13c6
 .asm_1174
-	ld [hli], a
-	call PrintLetterDelay
+    ld [hChar], a ; 2
+    xor a ; 1
+    rst $18 ; 1
+	;ld [hli], a ; 1
+	;call PrintLetterDelay ; 3
 	jp NextChar
 ; 0x117b
 
@@ -1467,16 +1545,41 @@ Char5AText: ; 0x1295
 
 INCBIN "baserom.gbc", $129c, $12ea - $129c
 
-Char4f: ; 12ea
+Char4fOld: ; 12ea
 	pop hl
 	ld hl, $c5e1
 	push hl
 	jp NextChar
-; 0x12f2
 
-INCBIN "baserom.gbc", $12f2, $1345 - $12f2
+Char51_ ; 0x12f2
+	push de
+	ld a, [$c2dc]
+	cp $3
+	jr z, .asm_1301 ; 0x12f8 $7
+	cp $4
+	jr z, .asm_1301 ; 0x12fc $3
+	call $13c7
+.asm_1301
+	call $13b6
+	call $0aaf
+	ld hl, $c5b9
+	ld bc, $0312
+	call ClearBox
+	call $13cd
+	nop
+	nop
+	ld a, 1
+	rst $18
+	;ld c, $14
+	;call DelayFrames
+	ld hl, $c5b9
+	pop de
+	jp NextChar
+; 0x131f
 
-Char55: ; $1345
+INCBIN "baserom.gbc", $131f, $1345 - $131f
+
+Char55Old: ; $1345
 	push de
 	ld de, $1354
 	ld b, h
@@ -6257,7 +6360,48 @@ TechnicalMachines: ; 0x1167a
 	db WHIRLPOOL
 	db WATERFALL
 
-INCBIN "baserom.gbc", $116b3, $11ce7 - $116b3
+INCBIN "baserom.gbc", $116b3, $116c1 - $116b3
+
+NamingScreen:
+    ld a, 2
+    rst $18
+	;ld hl, $c6d0
+	ld [hl], e
+	inc hl
+	ld [hl], d
+	ld hl, $c6d4
+	ld [hl], b
+	ld hl, $cfcc
+	ld a, [hl]
+	push af
+	set 4, [hl]
+	ld a, [$ffde]
+	push af
+	xor a
+	ld [$ffde], a
+	ld a, [$ffaa]
+	push af
+	ld a, $1
+	ld [$ffaa], a
+	call $56f8
+	call DelayFrame
+.asm_116e5
+	call $5915
+	jr nc, .asm_116e5 ; 0x116e8 $fb
+	pop af
+	ld [$ffaa], a
+	pop af
+	ld [$ffde], a
+	pop af
+	ld [$cfcc], a
+	
+    ld a, 3
+    rst $18
+	;call $092f
+	ret
+; 0x116f8
+
+INCBIN "baserom.gbc", $116f8, $11ce7 - $116f8
 
 NameInputLower:
 	db "a b c d e f g h i"
@@ -6519,8 +6663,13 @@ SetUpMenuItems: ; 4:6829 = 0x12829
 	ld a, $7
 	call AppendMenuList
 .no_exit
-	ld a, $3
-	call AppendMenuList
+    nop
+    nop
+    nop
+    nop
+    nop
+	;ld a, $3
+	;call AppendMenuList
 	ld a, [InLinkBattle]
 	and a
 	jr nz, .no_save
@@ -6532,10 +6681,16 @@ SetUpMenuItems: ; 4:6829 = 0x12829
 .write
 	call AppendMenuList
 .no_save
-	ld a, $5
-	call AppendMenuList
-	ld a, $6
-	call AppendMenuList
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
 	ld a, c
 	ld [MenuItemsList], a
 	ret
@@ -6579,8 +6734,13 @@ DrawMenuAccount: ; 4:68b4 0x128b4
 	jp TextBoxPalette
 
 IsMenuAccountOn: ; 0x128cb
-	ld a, [Options2]
-	and $1
+	;ld a, [Options2] ; 3
+	;and $1 2
+	nop
+	nop
+	nop
+	nop
+	xor a
 	ret
 ; 0x128d1
 
@@ -9236,7 +9396,12 @@ StudiumMenu: ; 0x49d9e
 	db MOBILE_STUDIUM
 	db $ff
 
-INCBIN "baserom.gbc", $49da4, $4a6e8 - $49da4
+INCBIN "baserom.gbc", $49da4, $49e09 - $49da4
+
+MainScreenDateTimeBox:
+    ret
+
+INCBIN "baserom.gbc", $49e0a, $4a6e8 - $49e0a
 
 SpecialBeastsCheck: ; 0x4a6e8
 ; Check if the player owns all three legendary beasts.
@@ -18662,7 +18827,361 @@ INCBIN "tilesets/36_metatiles.bin"
 
 
 SECTION "bank79",DATA,BANK[$79]
+HackPredef:
+    ; save hl
+    ld a, h
+    ld [TempH], a
+    ld a, l
+    ld [TempL], a
+    
+    push bc
+    ld hl, HackPredefTable
+    ld b, 0
+    ld a, [hTempA] ; old a
+    ld c, a
+    add hl, bc
+    add hl, bc
+    ld a, [hli]
+    ld c, a
+    ld a, [hl]
+    ld b, a
+    push bc
+    pop hl
+    pop bc
+    
+    push hl
+    ld a, [TempH]
+    ld h, a
+    ld a, [TempL]
+    ld l, a
+    ret ; jumps to hl
+    ;ld a, [$CD60]
+    ;ld h, a
+    ;ld a, [$CD61]
+    ;ld h, a
 
+HackPredefTable:
+    dw WriteCharAdvice ; 0
+    dw ResetVWFString
+    dw NamingScreenDisableVWF
+    dw NamingScreenEnableVWF
+    dw ResetVWFNewline
+    dw DecStringDepth
+
+WriteCharAdvice:
+    ld a, [VWFDisabled]
+    and a
+    ld a, [hChar]
+    jr nz, .disabled
+    
+    call WriteChar
+    ret
+.disabled
+    ld [hli], a
+    ret
+
+VWFFont:
+    INCBIN "gfx/vwffont.1bpp"
+    
+VWFTable:
+    db 8, 7, 7, 7, 6, 6, 7, 6, 6, 6, 6, 6, 8, 7, 7, 6
+    db 8, 7, 7, 6, 7, 8, 8, 8, 8, 6, 6, 6, 6, 6, 6, 6
+    db 7, 6, 6, 6, 6, 6, 6, 5, 2, 4, 5, 2, 6, 5, 6, 5
+    db 5, 5, 5, 5, 5, 6, 6, 6, 5, 5, 0, 0, 0, 0, 0, 0
+    db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    db 6, 5, 8, 8, 7, 7, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    db 3, 8, 8, 7, 0, 0, 6, 3, 4, 8, 6, 8, 8, 8, 8, 8
+    db 8, 8, 8, 8, 4, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8
+
+WaitDMA:
+    ; wait until DMA completes
+    ld a, [$FF55]
+    bit 7, a
+    jr z, WaitDMA
+    ret
+
+ResetVWF:
+    push af
+    push hl
+    xor a
+    ;ld [W_VWF_LETTERNUM], a
+    ;ld [W_VWF_CURTILENUM], a
+    ld [VWFCurTileRow], a
+    ld [VWFCurTileCol], a
+    ld hl, VWFCurTileNum
+    inc [hl]
+    ;ld [W_VWF_CURROW], a ; This should probably be reset elsewhere..
+    ;ld de, $8ba0
+    ;ld hl, $7000 ; look at me I'm copying zeros
+    ;ld c, $8f
+    ;call DoDMA
+    ;call WaitDMA
+    ;ld de, $8ca0
+    ;call DoDMA
+    ;call WaitDMA
+    ;ld de, $8da0
+    ;ld c, $82
+    ;call DoDMA
+    ;ld c, $24
+    ;ld b, 0
+    ;call DelayFrame
+    ;ld a, 0
+    ;call ByteFill ; bc*a starting at hl
+    pop hl
+    pop af
+	ret
+
+ResetVWFString:
+    ld a, [StringDepth] ; if not substring
+    and a
+    jr z, ResetVWF
+    ret
+    
+ResetVWFNewline:
+    jr ResetVWF
+
+CopyColumn:
+    ; b = source column
+    ; c = dest column
+    ; de = source number
+    ; hl = dest number
+    push hl
+    push de
+    ld a, $08
+    ld [VWFCurTileRow], a
+.Copy
+    ld a, [de]
+    and a, b
+    jr nz, .CopyOne
+.CopyZero
+    ld a, %11111111
+    xor c
+    and [hl]
+    jp .Next
+.CopyOne
+    ld a, c
+    or [hl]
+.Next
+    ld [hli],a
+    inc de
+    ld a, [VWFCurTileRow]
+    dec a
+    ld [VWFCurTileRow], a
+    jp nz, .Copy
+    pop de
+    pop hl
+    ret
+
+WriteChar:
+    push de
+    push hl
+    ld [VWFChar], a
+    ; Store the original tile location.
+    push hl
+    pop de
+    ld hl, VWFTileLoc
+    ld [hl], d
+    inc hl
+    ld [hl], e
+    
+    ; Check if VWF is enabled, bail if not.
+    ;ld a, [W_VWF_ENABLED]
+    ;dec a
+    
+    ; write to tilemap
+    pop hl
+    ld a, [VWFCurTileNum]
+    add $80
+    ;push af
+    ld [hl], a
+    push hl
+    
+    ; Store the character tile in BuildArea0.
+    ld a, [VWFChar]
+    sub a, $80
+    ld hl, VWFFont
+    ld b, 0
+    ld c, a
+    ld a, $8
+    call AddNTimes
+    ld bc, $0008
+    ld de, VWFBuildArea0
+    call CopyBytes ; copy bc source bytes from hl to de
+    
+    ld a, $1
+    ld [VWFNumTilesUsed], a
+    
+    ; Get the character length from the width table.
+    ; Space is a special case.
+    ld a, [VWFChar]
+    sub a, $80
+    cp a, $ff
+    jr nz, .NotSpace
+    ld a, $05
+    ld [VWFCharWidth], a
+    jp .WidthWritten
+.NotSpace
+    ld c, a
+    ld b, $00
+    ld hl, VWFTable
+    add hl, bc
+    ld a, [hl]
+    ld [VWFCharWidth], a
+.WidthWritten
+    ; Set up some things for building the tile.
+    ; Special cased to fix column $0, which is invalid (not a power of 2)
+    ld de, VWFBuildArea0
+    ld hl, VWFBuildArea2
+    ;ld b, a
+    ld b, %10000000
+    ld a, [VWFCurTileCol]
+    and a
+    jr nz, .ColumnIsFine
+    ld a, $80
+.ColumnIsFine
+    ld c, a ; a
+.DoColumn
+    ; Copy the column.
+    call CopyColumn
+    rr c
+    jr c, .TileOverflow
+    rrc b
+    ld a, [VWFCharWidth]
+    dec a
+    ld [VWFCharWidth], a
+    jr nz, .DoColumn 
+    jr .Done
+.TileOverflow
+    ld c, $80
+    ld a, $2
+    ld [VWFNumTilesUsed], a
+    ld hl, VWFBuildArea3
+    jr .ShiftB
+.DoColumnTile2
+    call CopyColumn
+    rr c
+.ShiftB
+    rrc b
+    ld a, [VWFCharWidth]
+    dec a
+    ld [VWFCharWidth], a
+    jr nz, .DoColumnTile2
+.Done
+    ld a, c
+    ld [VWFCurTileCol], a
+    
+    ;ld de, W_VWF_BUILDAREA1
+    ;ld hl, W_VWF_BUILDAREA3
+
+    ; 1bpp -> 2bpp
+    ld b, 0
+    ld c, $10
+    ld hl, VWFBuildArea2
+    ;call DelayFrame
+    ld de, VWFCopyArea
+    call FarCopyBytesDouble ; copy bc*2 bytes from a:hl to de ; XXX don't far
+
+    ; Get the tileset offset.
+    ld hl, $8800 ; $8ba0
+    ld a, [VWFCurTileNum]
+    ld b, $0
+    ld c, a
+    ld a, 16
+    call AddNTimes
+    
+    push hl
+    pop de
+    
+    ; Write the new tile(s)
+    ; Let's try DMA instead!
+
+    ld hl, VWFCopyArea
+    ld a, h
+    ld [$ff51], a
+    ld a, l
+    ld [$ff52], a
+    ld a, d
+    ld [$ff53], a
+    ld a, e
+    ld [$ff54], a
+    ld a, $81
+    ld [$ff55], a
+
+
+    ld a, [VWFNumTilesUsed]
+    dec a
+    dec a
+    jr nz, .SecondAreaUnused
+    
+    ; If we went over one tile, make sure we start with it next time.
+    ; also move through the tilemap.
+    ld a, [VWFCurTileNum]
+    inc a
+    ld [VWFCurTileNum], a
+    ld a, $00
+    ld hl, VWFBuildArea3
+    ld de, VWFBuildArea2
+    ld bc, $0008
+    call CopyBytes
+    ld hl, VWFBuildArea3
+    ld a, $0
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a ; lazy
+    
+    pop hl
+    inc hl
+    ld a, [VWFCurTileNum]
+    add $80
+    ld [hl], a
+    push hl
+    jr .FixOverflow
+.SecondAreaUnused
+    ; stupid bugfix for when the char didn't overflow, but the next char starts on the next tile.
+    ;ld a, [VWFCurTileCol]
+    ;cp $1
+    ;jr nz, .FixOverflow
+    ;pop hl
+    ;inc hl
+    ;push hl
+.FixOverflow
+    ; If we went over the last character allocated for VWF tiles, wrap around.
+    ld a, [VWFCurTileNum]
+    cp $e1-$80 ; may need tweaking
+    jr c, .AlmostDone
+    ld a, $00
+    ld [VWFCurTileNum], a ; Prevent overflow
+.AlmostDone
+    call WaitDMA
+    pop hl
+    pop de
+    ret
+    
+NamingScreenDisableVWF:
+    ld a, 1
+    ld [VWFDisabled], a
+    
+    ld hl, $c6d0 ; original code
+    ret
+
+
+NamingScreenEnableVWF:
+    xor a
+    ld [VWFDisabled], a
+    
+    call $092f ; original code
+    ret
+
+DecStringDepth:
+    ld a, [StringDepth]
+    dec a
+    ld [StringDepth], a
+    ret
 
 SECTION "bank7A",DATA,BANK[$7A]
 
