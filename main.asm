@@ -9385,7 +9385,12 @@ StudiumMenu: ; 0x49d9e
 	db MOBILE_STUDIUM
 	db $ff
 
-INCBIN "baserom.gbc", $49da4, $4a6e8 - $49da4
+INCBIN "baserom.gbc", $49da4, $49e09 - $49da4
+
+MainScreenDateTimeBox:
+    ret
+
+INCBIN "baserom.gbc", $49e0a, $4a6e8 - $49e0a
 
 SpecialBeastsCheck: ; 0x4a6e8
 ; Check if the player owns all three legendary beasts.
@@ -19135,7 +19140,7 @@ WriteChar:
 .FixOverflow
     ; If we went over the last character allocated for VWF tiles, wrap around.
     ld a, [VWFCurTileNum]
-    cp $e9-$80 ; may need tweaking
+    cp $e1-$80 ; may need tweaking
     jr c, .AlmostDone
     ld a, $00
     ld [VWFCurTileNum], a ; Prevent overflow
