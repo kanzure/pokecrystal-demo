@@ -6324,7 +6324,48 @@ TechnicalMachines: ; 0x1167a
 	db WHIRLPOOL
 	db WATERFALL
 
-INCBIN "baserom.gbc", $116b3, $11ce7 - $116b3
+INCBIN "baserom.gbc", $116b3, $116c1 - $116b3
+
+NamingScreen:
+    ld a, 2
+    rst $18
+	;ld hl, $c6d0
+	ld [hl], e
+	inc hl
+	ld [hl], d
+	ld hl, $c6d4
+	ld [hl], b
+	ld hl, $cfcc
+	ld a, [hl]
+	push af
+	set 4, [hl]
+	ld a, [$ffde]
+	push af
+	xor a
+	ld [$ffde], a
+	ld a, [$ffaa]
+	push af
+	ld a, $1
+	ld [$ffaa], a
+	call $56f8
+	call DelayFrame
+.asm_116e5
+	call $5915
+	jr nc, .asm_116e5 ; 0x116e8 $fb
+	pop af
+	ld [$ffaa], a
+	pop af
+	ld [$ffde], a
+	pop af
+	ld [$cfcc], a
+	
+    ld a, 3
+    rst $18
+	;call $092f
+	ret
+; 0x116f8
+
+INCBIN "baserom.gbc", $116f8, $11ce7 - $116f8
 
 NameInputLower:
 	db "a b c d e f g h i"
@@ -18780,10 +18821,19 @@ HackPredef:
 HackPredefTable:
     dw WriteCharAdvice ; 0
     dw ResetVWF
+    dw NamingScreenDisableVWF
+    dw NamingScreenEnableVWF
 
 WriteCharAdvice:
+    ld a, [VWFDisabled]
+    and a
     ld a, [hChar]
+    jr nz, .disabled
+    
     call WriteChar
+    ret
+.disabled
+    ld [hli], a
     ret
 
 VWFFont:
@@ -18885,7 +18935,16 @@ WriteChar:
     ;ld a, [W_VWF_ENABLED]
     ;dec a
     
+    ; write to tilemap
+    pop hl
+    ld a, [VWFCurTileNum]
+    add $80
+    ;push af
+    ld [hl], a
+    push hl
+    
     ; Store the character tile in BuildArea0.
+    ld a, [VWFChar]
     sub a, $80
     ld hl, VWFFont
     ld b, 0
@@ -18995,23 +19054,6 @@ WriteChar:
     ld a, $81
     ld [$ff55], a
 
-    ; write to tilemap
-    pop hl
-    ld a, [VWFCurTileNum]
-    add $80
-    ;push af
-    ld [hl], a
-    
-    ;ld a, [VWFCurTileCol]
-    ;cp $01
-    ;pop af
-    ;jr nz, .notover
-    ;inc hl
-    ;inc a
-    ;ld [hl], a
-.notover
-    push hl
-
 
     ld a, [VWFNumTilesUsed]
     dec a
@@ -19045,8 +19087,16 @@ WriteChar:
     add $80
     ld [hl], a
     push hl
-
+    jr .FixOverflow
 .SecondAreaUnused
+    ; stupid bugfix for when the char didn't overflow, but the next char starts on the next tile.
+    ;ld a, [VWFCurTileCol]
+    ;cp $1
+    ;jr nz, .FixOverflow
+    ;pop hl
+    ;inc hl
+    ;push hl
+.FixOverflow
     ; If we went over the last character allocated for VWF tiles, wrap around.
     ld a, [VWFCurTileNum]
     cp $e9-$80 ; may need tweaking
@@ -19059,6 +19109,20 @@ WriteChar:
     pop de
     ret
     
+NamingScreenDisableVWF
+    ld a, 1
+    ld [VWFDisabled], a
+    
+    ld hl, $c6d0 ; original code
+    ret
+
+
+NamingScreenEnableVWF
+    xor a
+    ld [VWFDisabled], a
+    
+    call $092f ; original code
+    ret
 
 SECTION "bank7A",DATA,BANK[$7A]
 

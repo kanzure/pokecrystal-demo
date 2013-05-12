@@ -35,9 +35,9 @@ VWFNumTilesUsed:
     ds 1
 VWFCharWidth:
     ds 1
-VWFCurRow:
-    ds 1
-VWFEnabled:
+;VWFCurRow:
+;    ds 1
+VWFDisabled:
     ds 1
 
 VWFBuildArea0:
