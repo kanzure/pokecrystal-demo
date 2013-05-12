@@ -8814,25 +8814,24 @@ GuideGentsHouse_SecondMapHeader: ; 0x96674
 	db 0
 ; 0x96680
 
-CherrygroveEvolutionSpeechHouse_SecondMapHeader: ; 0x96680
+SpiralForest_SecondMapHeader:
 	; border block
-	db $0
+	db $5
 
 	; height, width
-	db CHERRYGROVE_EVOLUTION_SPEECH_HOUSE_HEIGHT, CHERRYGROVE_EVOLUTION_SPEECH_HOUSE_WIDTH
+	db SPIRAL_FOREST_HEIGHT, SPIRAL_FOREST_WIDTH
 
 	; blockdata (bank-then-pointer)
-	dbw BANK(OlivineVoltorbHouse_BlockData), OlivineVoltorbHouse_BlockData
+	dbw BANK(SpiralForest_BlockData), SpiralForest_BlockData
 
 	; script header (bank-then-pointer)
-	dbw BANK(CherrygroveEvolutionSpeechHouse_MapScriptHeader), CherrygroveEvolutionSpeechHouse_MapScriptHeader
+	dbw BANK(SpiralForest_MapScriptHeader), SpiralForest_MapScriptHeader
 
 	; map event header (bank-then-pointer)
-	dw CherrygroveEvolutionSpeechHouse_MapEventHeader
+	dw SpiralForest_MapEventHeader
 
 	; connections
 	db 0
-; 0x9668c
 
 Meadow_SecondMapHeader:
 	; border block
