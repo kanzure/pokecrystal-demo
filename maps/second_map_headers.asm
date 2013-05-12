@@ -8854,43 +8854,41 @@ Route30BerrySpeechHouse_SecondMapHeader: ; 0x9668c
 	db 0
 ; 0x96698
 
-MrPokemonsHouse_SecondMapHeader: ; 0x96698
+WaterChuteWay_SecondMapHeader:
 	; border block
 	db $0
 
 	; height, width
-	db MR_POKEMONS_HOUSE_HEIGHT, MR_POKEMONS_HOUSE_WIDTH
+	db WATERCHUTEWAY_HEIGHT, WATERCHUTEWAY_WIDTH
 
-	; blockdata (bank-then-pointer)
-	dbw BANK(MrPokemonsHouse_BlockData), MrPokemonsHouse_BlockData
+	; blockdata
+	dbw BANK(WaterChuteWay_BlockData), WaterChuteWay_BlockData
 
-	; script header (bank-then-pointer)
-	dbw BANK(MrPokemonsHouse_MapScriptHeader), MrPokemonsHouse_MapScriptHeader
+	; script header
+	dbw BANK(WaterChuteWay_MapScriptHeader), WaterChuteWay_MapScriptHeader
 
-	; map event header (bank-then-pointer)
-	dw MrPokemonsHouse_MapEventHeader
+	; map event header
+	dw WaterChuteWay_MapEventHeader
 
 	; connections
 	db 0
-; 0x966a4
 
-Route31VioletGate_SecondMapHeader: ; 0x966a4
+ThirdCave_SecondMapHeader:
 	; border block
-	db $0
+	db $9
 
 	; height, width
-	db ROUTE_31_VIOLET_GATE_HEIGHT, ROUTE_31_VIOLET_GATE_WIDTH
+	db THIRDCAVE_HEIGHT, THIRDCAVE_WIDTH
 
 	; blockdata (bank-then-pointer)
-	dbw BANK(Route38EcruteakGate_BlockData), Route38EcruteakGate_BlockData
+	dbw BANK(ThirdCave_BlockData), ThirdCave_BlockData
 
 	; script header (bank-then-pointer)
-	dbw BANK(Route31VioletGate_MapScriptHeader), Route31VioletGate_MapScriptHeader
+	dbw BANK(ThirdCave_MapScriptHeader), ThirdCave_MapScriptHeader
 
-	; map event header (bank-then-pointer)
-	dw Route31VioletGate_MapEventHeader
+	; map event header
+	dw ThirdCave_MapEventHeader
 
 	; connections
 	db 0
-; 0x966b0
 

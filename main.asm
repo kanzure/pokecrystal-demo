@@ -1275,7 +1275,7 @@ CheckDict: ; 1087
 	cp $15
 	jp z, $117b
 	cp $4f
-	jp z, $12ea
+	jp z, Char4f
 	cp $4e
 	jp z, $12a7
 	cp $16
@@ -1319,7 +1319,7 @@ CheckDict: ; 1087
 	cp $22
 	jp z, $12b0
 	cp $55
-	jp z, $1345
+	jp z, Char55
 	cp $56
 	jp z, $11d3
 	cp $57
@@ -1447,7 +1447,7 @@ Char5D:
 	ld h, b
 	ld l, c
 	pop de
-	jp $1083
+	jp NextChar
 ; 0x1273
 
 
@@ -1465,7 +1465,32 @@ Char56Text: ; 0x1293
 Char5AText: ; 0x1295
 	db "Enemy @"
 
-INCBIN "baserom.gbc", $129c, $1356 - $129c
+INCBIN "baserom.gbc", $129c, $12ea - $129c
+
+Char4f: ; 12ea
+	pop hl
+	ld hl, $c5e1
+	push hl
+	jp NextChar
+; 0x12f2
+
+INCBIN "baserom.gbc", $12f2, $1345 - $12f2
+
+Char55: ; $1345
+	push de
+	ld de, $1354
+	ld b, h
+	ld c, l
+	call $1078
+	ld h, b
+	ld l, c
+	pop de
+	jp NextChar
+; 0x1354
+
+; ???
+	ld c, e
+	ld d, b
 
 Char5F: ; 0x1356
 ; ends a Pokédex entry
@@ -5661,23 +5686,29 @@ CheckPartyMove: ; c742
 INCBIN "baserom.gbc", $c779, $c986 - $c779
 
 UsedSurfScript: ; c986
-; print "[MON] used SURF!"
-	2writetext UsedSurfText
-	closetext
-	loadmovesprites
-; this does absolutely nothing
-	3callasm BANK(Functionc9a2), Functionc9a2
+
 ; write surftype to PlayerState
 	copybytetovar $d1eb ; Buffer2
 	writevarcode VAR_MOVEMENT
-; update sprite tiles
+; update the player sprite
 	special SPECIAL_UPDATESPRITETILES
-; start surf music
-	special SPECIAL_BIKESURFMUSIC
 ; step into the water
 	special SPECIAL_LOADFACESTEP ; (slow_step_x, step_end)
 	applymovement $00, $d007 ; PLAYER, MovementBuffer
 	end
+
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
 ; c9a2
 
 Functionc9a2: ; c9a2
@@ -5752,58 +5783,63 @@ CheckSurfOW: ; c9e7
 ; check if you can surf
 ; return carry if conditions are met
 
-; can we surf?
+; Are you already surfing?
 	ld a, [PlayerState]
-	; are you already surfing (pikachu)?
 	cp PLAYER_SURF_PIKA
 	jr z, .quit
-	; are you already surfing (normal)?
 	cp PLAYER_SURF
 	jr z, .quit
-	; are you facing a surf tile?
-	ld a, [$d03e] ; buffer for the tile you are facing (used for other things too)
+
+; Are you facing a surf tile?
+	ld a, [$d03e] ; PlayerFaceTile
 	call GetTileType
 	cp $01 ; surfable
 	jr nz, .quit
-	; does this contradict tile permissions?
+
+; Does it contradict tile permissions?
 	call CheckDirection
 	jr c, .quit
-	; do you have fog badge?
-	ld de, $001e ; FLAG_FOG_BADGE
-	call CheckFlag2
-	jr c, .quit
-	; do you have a monster with surf?
-	ld d, SURF
-	call CheckPartyMove
-	jr c, .quit
-	; can you get off the bike (cycling road)?
+
+; Can you get off the bike (cycling road)?
 	ld hl, $dbf5 ; overworld flags
 	bit 1, [hl] ; always on bike (can't surf)
 	jr nz, .quit
-	
-; load surftype into MovementType
+
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+
+; Run UsedSurfScript
 	call GetSurfType
 	ld [$d1eb], a ; MovementType
-	
-; get surfmon nick
+
+	xor a ; TODO: Get SurfMon here.
+	ld [CurPartyMon], a
 	call GetPartyNick
-	
-; run AskSurfScript
-	ld a, BANK(AskSurfScript)
-	ld hl, AskSurfScript
+
+	ld a, BANK(UsedSurfScript)
+	ld hl, UsedSurfScript
 	call PushScriptPointer
 
-; conditions were met
+; We're surfing
 	scf
 	ret
-	
+
 .quit
-; conditions were not met
 	xor a
 	ret
 ; ca2c
 
 AskSurfScript: ; ca2c
+; Now unused.
 	loadfont
 	2writetext AskSurfText
 	yesorno
@@ -12653,7 +12689,6 @@ SECTION "bank25",DATA,BANK[$25]
 
 MapGroupPointers: ; 0x94000
 ; pointers to the first map header of each map group
-	dw MapGroup0
 	dw MapGroup1
 	dw MapGroup2
 	dw MapGroup3
@@ -12679,6 +12714,7 @@ MapGroupPointers: ; 0x94000
 	dw MapGroup23
 	dw MapGroup24
 	dw MapGroup25
+	dw MapGroup26
 
 
 INCLUDE "maps/map_headers.asm"
@@ -13970,7 +14006,6 @@ BetaBlank_BlockData: ; 0xb1afa
 GoldenrodDeptStoreRoof_BlockData: ; 0xb1b22
 	INCBIN "maps/GoldenrodDeptStoreRoof.blk"
 ; 0xb1b42
-
 
 SECTION "bank2D",DATA,BANK[$2D]
 
@@ -18404,7 +18439,6 @@ INCLUDE "text/common.tx"
 INCLUDE "maps/SilverCaveOutside.asm"
 INCLUDE "maps/Route10North.asm"
 
-
 SECTION "bank6D",DATA,BANK[$6D]
 
 INCLUDE "text/phone/mom.tx"
@@ -18412,6 +18446,8 @@ INCLUDE "text/phone/bill.tx"
 INCLUDE "text/phone/elm.tx"
 INCLUDE "text/phone/trainers1.tx"
 
+INCLUDE "maps/WaterChuteWay.asm"
+INCLUDE "maps/ThirdCave.asm"
 
 SECTION "bank6E",DATA,BANK[$6E]
 
@@ -18629,6 +18665,11 @@ SECTION "bank79",DATA,BANK[$79]
 
 SECTION "bank7A",DATA,BANK[$7A]
 
+WaterChuteWay_BlockData:
+	INCBIN "maps/WaterChuteWay.blk"
+
+ThirdCave_BlockData:
+	INCBIN "maps/ThirdCave.blk"
 
 SECTION "bank7B",DATA,BANK[$7B]
 
