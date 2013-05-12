@@ -1,7 +1,7 @@
 SECTION "bank0",HOME
 SECTION "rst0",HOME[$0]
-	di
-	jp Start
+    di
+    jp Start
 
 SECTION "rst8",HOME[$8] ; FarCall
 	jp FarJpHl
@@ -11,8 +11,9 @@ SECTION "rst10",HOME[$10] ; Bankswitch
 	ld [MBC3RomBank], a
 	ret
 
-SECTION "rst18",HOME[$18] ; Unused
-	rst $38
+SECTION "rst18",HOME[$18] ; HackPredef
+    ld [hTempA], a ; 3
+	jp Rst18Cont
 
 SECTION "rst20",HOME[$20] ; Unused
 	rst $38
@@ -48,6 +49,18 @@ SECTION "serial",HOME[$58] ; serial interrupt
 
 SECTION "joypad",HOME[$60] ; joypad interrupt
 	jp JoypadInt
+
+Rst18Cont:
+    ld a, [hROMBank]
+	ld [hBankOld],a
+	ld a, BANK(HackPredef)
+	rst Bankswitch
+    call HackPredef
+    ld [hTempA], a
+    ld a, [hBankOld]
+	rst Bankswitch
+	ld a, [hTempA]
+	ret
 
 SECTION "romheader",HOME[$100]
 Start:
@@ -19387,7 +19400,44 @@ INCBIN "tilesets/36_metatiles.bin"
 
 
 SECTION "bank79",DATA,BANK[$79]
+HackPredef:
+    ; save hl
+    ld a, h
+    ld [TempH], a
+    ld a, l
+    ld [TempL], a
+    
+    push bc
+    ld hl, HackPredefTable
+    ld b, 0
+    ld a, [hTempA] ; old a
+    ld c, a
+    add hl, bc
+    add hl, bc
+    ld a, [hli]
+    ld c, a
+    ld a, [hl]
+    ld b, a
+    push bc
+    pop hl
+    pop bc
+    
+    push hl
+    ld a, [TempH]
+    ld h, a
+    ld a, [TempL]
+    ld l, a
+    ret ; jumps to hl
+    ;ld a, [$CD60]
+    ;ld h, a
+    ;ld a, [$CD61]
+    ;ld h, a
 
+HackPredefTable:
+    dw NothingAdvice ; 0
+
+NothingAdvice:
+    ret
 
 SECTION "bank7A",DATA,BANK[$7A]
 

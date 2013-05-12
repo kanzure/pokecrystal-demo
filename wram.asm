@@ -15,7 +15,11 @@ VBGMap1:
 
 
 SECTION "stack",BSS[$c000]
-	ds 256
+TempH:
+    ds 1
+TempL:
+    ds 1
+	ds 254
 Stack: ; c100
 
 

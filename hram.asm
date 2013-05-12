@@ -58,3 +58,7 @@ hCGB               EQU $ffe6
 hSGB               EQU $ffe7
 hDMATransfer       EQU $ffe8
 
+
+hBankOld           EQU $ffe9
+hBankNew           EQU $ffea
+hTempA             EQU $ffeb
