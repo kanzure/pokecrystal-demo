@@ -4335,17 +4335,6 @@ MrPokemonsHouse_MapHeader: ; 0x94dc6
 	db $4, $26, 1, 1
 ; 0x94dcf
 
-Route31VioletGate_MapHeader: ; 0x94dcf
-	; bank, tileset, permission
-	db BANK(Route31VioletGate_SecondMapHeader), $8, 6
-
-	; second map header
-	dw Route31VioletGate_SecondMapHeader
-
-	; location on world map, music, time of day, fishing group
-	db $5, $2b, 1, 1
-; 0x94dd8
-
 WaterChuteWay_MapHeader:
 	; bank, tileset, permission
 	db BANK(WaterChuteWay_SecondMapHeader), $2, 3

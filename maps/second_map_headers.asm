@@ -8874,26 +8874,6 @@ MrPokemonsHouse_SecondMapHeader: ; 0x96698
 	db 0
 ; 0x966a4
 
-Route31VioletGate_SecondMapHeader: ; 0x966a4
-	; border block
-	db $0
-
-	; height, width
-	db ROUTE_31_VIOLET_GATE_HEIGHT, ROUTE_31_VIOLET_GATE_WIDTH
-
-	; blockdata (bank-then-pointer)
-	dbw BANK(Route38EcruteakGate_BlockData), Route38EcruteakGate_BlockData
-
-	; script header (bank-then-pointer)
-	dbw BANK(Route31VioletGate_MapScriptHeader), Route31VioletGate_MapScriptHeader
-
-	; map event header (bank-then-pointer)
-	dw Route31VioletGate_MapEventHeader
-
-	; connections
-	db 0
-; 0x966b0
-
 WaterChuteWay_SecondMapHeader:
 	; border block
 	db $0
