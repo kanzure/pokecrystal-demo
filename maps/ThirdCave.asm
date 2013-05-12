@@ -16,7 +16,7 @@ ThirdCave_MapEventHeader:
 	warp_def 1, 5, 1, GROUP_KRISS_HOUSE_2F, MAP_KRISS_HOUSE_2F
 
 	; top right
-	warp_def 1, 11, 1, GROUP_KRISS_HOUSE_2F, MAP_KRISS_HOUSE_2F
+	warp_def 1, 11, 1, GROUP_MEADOW, MAP_MEADOW
 
 	; bottom
 	warp_def 30, 15, 1, GROUP_KRISS_HOUSE_2F, MAP_KRISS_HOUSE_2F
