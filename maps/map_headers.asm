@@ -3946,7 +3946,7 @@ Route29_MapHeader: ; 0x94c8b
 
 NewBarkTown_MapHeader: ; 0x94c94
 	; bank, tileset, permission
-	db BANK(NewBarkTown_SecondMapHeader), $1, 1
+	db BANK(NewBarkTown_SecondMapHeader), 36, 1
 
 	; second map header
 	dw NewBarkTown_SecondMapHeader
