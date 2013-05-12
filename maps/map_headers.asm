@@ -4302,16 +4302,15 @@ GuideGentsHouse_MapHeader: ; 0x94dab
 	db $3, $26, 1, 1
 ; 0x94db4
 
-CherrygroveEvolutionSpeechHouse_MapHeader: ; 0x94db4
+SpiralForest_MapHeader:
 	; bank, tileset, permission
-	db BANK(CherrygroveEvolutionSpeechHouse_SecondMapHeader), $5, 3
+	db BANK(SpiralForest_SecondMapHeader), $5, 3
 
 	; second map header
-	dw CherrygroveEvolutionSpeechHouse_SecondMapHeader
+	dw SpiralForest_SecondMapHeader
 
 	; location on world map, music, time of day, fishing group
 	db $3, $26, 1, 1
-; 0x94dbd
 
 Meadow_MapHeader:
 	; bank, tileset, permission
