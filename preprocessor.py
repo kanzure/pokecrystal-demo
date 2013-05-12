@@ -403,22 +403,9 @@ def quote_translator(asm):
 
             if print_macro:
                 line = 0
-                pixels = 0
                 while len(characters):
-                    raise ValueError(characters[0])
-                    char = ord(characters[0])
-                    if char == 0x7f:
-                        width = 5
-                    elif char in vwftable:
-                        width = vwftable[char]
-                    else:
-                        width = 8 # XXX
-                        #raise ValueError(char)
-                    
-                    pixels += width
-                    
                     last_char = 1
-                    if pixels > 18*8 and characters[-1] != '@':
+                    if len(characters) > 18 and characters[-1] != '@':
                         for i, char in enumerate(characters):
                             last_char = i + 1
                             if ' ' not in characters[i+1:18]: break
@@ -431,13 +418,10 @@ def quote_translator(asm):
                            line_ending = 0x51
                         output += ", ${0:02X}".format(line_ending)
                         line += 1
-                        pixels = 0
                     else:
                         output += ", ".join(["${0:02X}".format(chars[char]) for char in characters[:last_char]])
                     characters = characters[last_char:]
-                    if len(characters):
-                        output += ", "
-                        
+                    if len(characters): output += ", "
                 # end text
                 line_ending = 0x57
                 output += ", ${0:02X}".format(line_ending)
