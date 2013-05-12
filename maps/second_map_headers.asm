@@ -8886,7 +8886,7 @@ ThirdCave_SecondMapHeader:
 	; script header (bank-then-pointer)
 	dbw BANK(ThirdCave_MapScriptHeader), ThirdCave_MapScriptHeader
 
-	; map event header (bank-then-pointer)
+	; map event header
 	dw ThirdCave_MapEventHeader
 
 	; connections

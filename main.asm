@@ -18428,9 +18428,6 @@ INCLUDE "text/common.tx"
 INCLUDE "maps/SilverCaveOutside.asm"
 INCLUDE "maps/Route10North.asm"
 
-INCLUDE "maps/WaterChuteWay.asm"
-INCLUDE "maps/ThirdCave.asm"
-
 SECTION "bank6D",DATA,BANK[$6D]
 
 INCLUDE "text/phone/mom.tx"
@@ -18438,6 +18435,8 @@ INCLUDE "text/phone/bill.tx"
 INCLUDE "text/phone/elm.tx"
 INCLUDE "text/phone/trainers1.tx"
 
+INCLUDE "maps/WaterChuteWay.asm"
+INCLUDE "maps/ThirdCave.asm"
 
 SECTION "bank6E",DATA,BANK[$6E]
 
