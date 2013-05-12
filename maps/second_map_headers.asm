@@ -8892,3 +8892,21 @@ ThirdCave_SecondMapHeader:
 	; connections
 	db 0
 
+StarterCity_SecondMapHeader:
+    ; border block
+	db $6
+	
+	; height, width
+	db STARTERCITY_HEIGHT, STARTERCITY_WIDTH
+	
+	; blockdata (bank-then-pointer)
+	dbw BANK(StarterCity_BlockData), StarterCity_BlockData
+	
+	; script header (bank-then-pointer)
+	dbw BANK(StarterCity_MapScriptHeader), StarterCity_MapScriptHeader
+	
+	; map event header
+	dw StarterCity_MapEventHeader
+	
+	; connections
+	db 0

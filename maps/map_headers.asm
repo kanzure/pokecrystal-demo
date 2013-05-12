@@ -4344,3 +4344,13 @@ ThirdCave_MapHeader:
 	; location on world map, music, time of day, fishing group
 	db $a, $26, 18, 3
 
+StarterCity_MapHeader:
+    ; bank, tileset, permission
+	db BANK(StarterCity_SecondMapHeader), $1, 3
+	
+	; second map header
+	dw StarterCity_SecondMapHeader
+	
+	; location on world map, music, time of day, fishing group
+	db $c, $26, 1, 1
+	
