@@ -4304,7 +4304,7 @@ GuideGentsHouse_MapHeader: ; 0x94dab
 
 SpiralForest_MapHeader:
 	; bank, tileset, permission
-	db BANK(SpiralForest_SecondMapHeader), $5, 3
+	db BANK(SpiralForest_SecondMapHeader), 1, 3
 
 	; second map header
 	dw SpiralForest_SecondMapHeader
