@@ -18448,6 +18448,7 @@ INCLUDE "text/phone/trainers1.tx"
 
 INCLUDE "maps/WaterChuteWay.asm"
 INCLUDE "maps/ThirdCave.asm"
+INCLUDE "maps/Meadow.asm"
 
 SECTION "bank6E",DATA,BANK[$6E]
 
@@ -18670,6 +18671,9 @@ WaterChuteWay_BlockData:
 
 ThirdCave_BlockData:
 	INCBIN "maps/ThirdCave.blk"
+	
+Meadow_BlockData:
+	INCBIN "maps/Meadow.blk"
 
 SECTION "bank7B",DATA,BANK[$7B]
 

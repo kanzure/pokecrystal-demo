@@ -3946,7 +3946,7 @@ Route29_MapHeader: ; 0x94c8b
 
 NewBarkTown_MapHeader: ; 0x94c94
 	; bank, tileset, permission
-	db BANK(NewBarkTown_SecondMapHeader), $1, 1
+	db BANK(NewBarkTown_SecondMapHeader), 36, 1
 
 	; second map header
 	dw NewBarkTown_SecondMapHeader
@@ -4313,16 +4313,15 @@ CherrygroveEvolutionSpeechHouse_MapHeader: ; 0x94db4
 	db $3, $26, 1, 1
 ; 0x94dbd
 
-Route30BerrySpeechHouse_MapHeader: ; 0x94dbd
+Meadow_MapHeader:
 	; bank, tileset, permission
-	db BANK(Route30BerrySpeechHouse_SecondMapHeader), $5, 3
+	db BANK(Meadow_SecondMapHeader), 36, 3
 
 	; second map header
-	dw Route30BerrySpeechHouse_SecondMapHeader
+	dw Meadow_SecondMapHeader
 
 	; location on world map, music, time of day, fishing group
-	db $4, $26, 1, 1
-; 0x94dc6
+	db $a, MUSIC_NATIONAL_PARK, 18, 3
 
 WaterChuteWay_MapHeader:
 	; bank, tileset, permission
@@ -4343,4 +4342,3 @@ ThirdCave_MapHeader:
 
 	; location on world map, music, time of day, fishing group
 	db $a, $26, 18, 3
-
