@@ -1310,8 +1310,8 @@ CheckDict: ; 1087
 	jp z, $1337
 	cp $4b
 	jp z, $131f
-	cp $51 ; Player name
-	jp z, $12f2
+	cp $51
+	jp z, Char51
 	cp $49
 	jp z, $1186
 	cp $52 ; Mother name
@@ -1499,9 +1499,30 @@ Char4f: ; 12ea
 	ld hl, $c5e1
 	push hl
 	jp NextChar
-; 0x12f2
 
-INCBIN "baserom.gbc", $12f2, $1345 - $12f2
+Char51 ; 0x12f2
+	push de
+	ld a, [$c2dc]
+	cp $3
+	jr z, .asm_1301 ; 0x12f8 $7
+	cp $4
+	jr z, .asm_1301 ; 0x12fc $3
+	call $13c7
+.asm_1301
+	call $13b6
+	call $0aaf
+	ld hl, $c5b9
+	ld bc, $0312
+	call ClearBox
+	call $13cd
+	ld c, $14
+	call DelayFrames
+	ld hl, $c5b9
+	pop de
+	jp NextChar
+; 0x131f
+
+INCBIN "baserom.gbc", $131f, $1345 - $131f
 
 Char55: ; $1345
 	push de
