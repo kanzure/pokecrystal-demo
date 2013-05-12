@@ -4346,4 +4346,13 @@ Route31VioletGate_MapHeader: ; 0x94dcf
 	db $5, $2b, 1, 1
 ; 0x94dd8
 
+WaterChuteWay_MapHeader:
+	; bank, tileset, permission
+	db BANK(WaterChuteWay_SecondMapHeader), $2, 3
+
+	; second map header
+	dw WaterChuteWay_SecondMapHeader
+
+	; location on world map, music, time of day, fishing group
+	db $5, $26, 1, 1
 

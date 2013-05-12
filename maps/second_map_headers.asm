@@ -8894,3 +8894,22 @@ Route31VioletGate_SecondMapHeader: ; 0x966a4
 	db 0
 ; 0x966b0
 
+WaterChuteWay_SecondMapHeader:
+	; border block
+	db $0
+
+	; height, width
+	db WATERCHUTEWAY_HEIGHT, WATERCHUTEWAY_WIDTH
+
+	; blockdata
+	dbw BANK(WaterChuteWay_BlockData), WaterChuteWay_BlockData
+
+	; script header
+	dbw BANK(WaterChuteWay_MapScriptHeader), WaterChuteWay_MapScriptHeader
+
+	; map event header
+	dw WaterChuteWay_MapEventHeader
+
+	; connections
+	db 0
+
