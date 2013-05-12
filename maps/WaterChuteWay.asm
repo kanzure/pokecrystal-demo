@@ -17,13 +17,15 @@ WaterChuteWay_MapEventHeader:
 	db 1
 
 	; cave, feel free to warp somewhere useful
-	warp_def 37, 3, GROUP_ELMS_LAB, MAP_ELMS_LAB
+	warp_def 37, 3, 1, GROUP_ELMS_LAB, MAP_ELMS_LAB
 
 	; xy triggers
 	db 0
 
 	; signposts
 	db 1
+
+	; cave signpost
 	signpost 36, 4, $0, WaterChuteWaySignpost0Script
 
 	; people-events
