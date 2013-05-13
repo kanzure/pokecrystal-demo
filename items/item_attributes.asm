@@ -1074,12 +1074,12 @@ Item2Attributes:
 	db KEY_ITEM
 	db $00 ; can't use
 
-; TERU-SAMA
-	dw 39321 ; price
+; BACKPACK
+	dw 0 ; price
 	db NONE ; effect
 	db 0 ; param
-	db 0 ; can select + toss
-	db ITEM
+	db CANT_SELECT | CANT_TOSS
+	db KEY_ITEM
 	db $00 ; can't use
 
 ; TERU-SAMA

@@ -132,7 +132,7 @@
 	db "Star Piece@"
 	db "Basement Key@"
 	db "Pass@"
-	db "Teru-Sama@"
+	db "Backpack@"
 	db "Teru-Sama@"
 	db "Teru-Sama@"
 	db "Charcoal@"
