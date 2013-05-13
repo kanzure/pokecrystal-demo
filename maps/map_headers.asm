@@ -4290,12 +4290,12 @@ CherrygroveGymSpeechHouse_MapHeader: ; 0x94da2
 	db $3, $26, 1, 1
 ; 0x94dab
 
-GuideGentsHouse_MapHeader: ; 0x94dab
+TickleForest_MapHeader: ; 0x94dab
 	; bank, tileset, permission
-	db BANK(GuideGentsHouse_SecondMapHeader), $5, 3
+	db BANK(TickleForest_SecondMapHeader), $5, 3
 
 	; second map header
-	dw GuideGentsHouse_SecondMapHeader
+	dw TickleForest_SecondMapHeader
 
 	; location on world map, music, time of day, fishing group
 	db $3, $26, 1, 1

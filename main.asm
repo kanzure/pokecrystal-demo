@@ -18826,6 +18826,7 @@ INCLUDE "maps/ThirdCave.asm"
 INCLUDE "maps/Meadow.asm"
 INCLUDE "maps/SpiralForest.asm"
 INCLUDE "maps/StarterCity.asm"
+INCLUDE "maps/TickleWoods.asm"
 
 SECTION "bank6E",DATA,BANK[$6E]
 
@@ -19404,6 +19405,9 @@ SpiralForest_BlockData:
 
 StarterCity_BlockData:
 	INCBIN "maps/StarterCity.blk"
+
+TickleWoods_BlockData:
+	INCBIN "maps/TickleWoods.blk"
 
 SECTION "bank7B",DATA,BANK[$7B]
 
