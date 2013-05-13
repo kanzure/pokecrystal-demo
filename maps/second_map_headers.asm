@@ -8783,25 +8783,24 @@ CherrygroveGymSpeechHouse_SecondMapHeader: ; 0x96668
 	db 0
 ; 0x96674
 
-GuideGentsHouse_SecondMapHeader: ; 0x96674
+LRoute_SecondMapHeader:
 	; border block
-	db $0
+	db 113 ; I guess
 
 	; height, width
-	db GUIDE_GENTS_HOUSE_HEIGHT, GUIDE_GENTS_HOUSE_WIDTH
+	db 20, 20
 
 	; blockdata (bank-then-pointer)
-	dbw BANK(OlivineVoltorbHouse_BlockData), OlivineVoltorbHouse_BlockData
+	dbw BANK(LRoute_BlockData), LRoute_BlockData
 
 	; script header (bank-then-pointer)
-	dbw BANK(GuideGentsHouse_MapScriptHeader), GuideGentsHouse_MapScriptHeader
+	dbw BANK(LRoute_MapScriptHeader), LRoute_MapScriptHeader
 
-	; map event header (bank-then-pointer)
-	dw GuideGentsHouse_MapEventHeader
+	; map event header
+	dw LRoute_MapEventHeader
 
 	; connections
 	db 0
-; 0x96680
 
 SpiralForest_SecondMapHeader:
 	; border block

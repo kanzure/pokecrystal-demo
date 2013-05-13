@@ -18725,6 +18725,7 @@ INCLUDE "maps/ThirdCave.asm"
 INCLUDE "maps/Meadow.asm"
 INCLUDE "maps/SpiralForest.asm"
 INCLUDE "maps/StarterCity.asm"
+INCLUDE "maps/LRoute.asm"
 
 SECTION "bank6E",DATA,BANK[$6E]
 
@@ -19303,6 +19304,9 @@ SpiralForest_BlockData:
 
 StarterCity_BlockData:
 	INCBIN "maps/StarterCity.blk"
+
+LRoute_BlockData:
+	INCBIN "maps/LRoute.blk"
 
 SECTION "bank7B",DATA,BANK[$7B]
 

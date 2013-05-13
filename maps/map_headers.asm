@@ -4290,16 +4290,15 @@ CherrygroveGymSpeechHouse_MapHeader: ; 0x94da2
 	db $3, $26, 1, 1
 ; 0x94dab
 
-GuideGentsHouse_MapHeader: ; 0x94dab
+LRoute_MapHeader:
 	; bank, tileset, permission
-	db BANK(GuideGentsHouse_SecondMapHeader), $5, 3
+	db BANK(LRoute_SecondMapHeader), 36, 3
 
 	; second map header
-	dw GuideGentsHouse_SecondMapHeader
+	dw LRoute_SecondMapHeader
 
 	; location on world map, music, time of day, fishing group
-	db $3, $26, 1, 1
-; 0x94db4
+	db $3, MUSIC_ROUTE_30, 1, 1
 
 SpiralForest_MapHeader:
 	; bank, tileset, permission
