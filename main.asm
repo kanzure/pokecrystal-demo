@@ -18827,6 +18827,7 @@ INCLUDE "maps/Meadow.asm"
 INCLUDE "maps/SpiralForest.asm"
 INCLUDE "maps/StarterCity.asm"
 INCLUDE "maps/TickleWoods.asm"
+INCLUDE "maps/BarrierCreator.asm"
 
 SECTION "bank6E",DATA,BANK[$6E]
 
@@ -19408,6 +19409,9 @@ StarterCity_BlockData:
 
 TickleWoods_BlockData:
 	INCBIN "maps/TickleWoods.blk"
+
+BarrierCreator_BlockData:
+	INCBIN "maps/BarrierCreator.blk"
 
 SECTION "bank7B",DATA,BANK[$7B]
 
