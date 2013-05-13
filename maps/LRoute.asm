@@ -16,10 +16,10 @@ LRouteSignpostScript: ;
 ; 0x1a80cb
 
 LRouteSignpost: 
-	print "L Route         -> Starter City"
+	print "L Route; Right: Starter City"
 ; 0x1a834d
 
-Meadow_MapEventHeader: ; 
+LRoute_MapEventHeader: ; 
 	; filler
 	db 0, 0
 
@@ -52,7 +52,7 @@ LRouteRandomPerson:
 LRouteRandomPersonText:
     print "Blah blah"
 
-LRouteRandom2Person:
+LRouteRandomPerson2:
 	jumptextfaceplayer RandomPersonText
 
 LRouteRandomPerson2Text:

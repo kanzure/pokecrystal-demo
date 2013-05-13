@@ -2132,23 +2132,9 @@ Route5_SecondMapHeader: ; 0x9563c
 	dw Route5_MapEventHeader
 
 	; connections
-	db NORTH | SOUTH
+	db 0
 
-	; NORTH to Cerulean City
-	db GROUP_CERULEAN_CITY, MAP_CERULEAN_CITY ; connected map (group, id)
-	dw (CeruleanCity_BlockData + CERULEAN_CITY_WIDTH + 10 + (16 * CERULEAN_CITY_HEIGHT) - 16) ; strip pointer
-	dw ($C703 + 253) ; strip destination
-	db 16, CERULEAN_CITY_WIDTH ; (connection strip length, connected map width)
-	db ((CERULEAN_CITY_HEIGHT * 2) - 1), 10 ; yoffset, xoffset
-	dw ($C801 + ((CERULEAN_CITY_HEIGHT * 6) + (CERULEAN_CITY_HEIGHT * CERULEAN_CITY_WIDTH))) ; window
 
-	; SOUTH to Saffron City
-	db GROUP_SAFFRON_CITY, MAP_SAFFRON_CITY ; connected map (group, id)
-	dw (SaffronCity_BlockData + ((10 - 16 + ROUTE_5_WIDTH) / 2)) ; strip pointer
-	dw ($C703 + 253 + ((ROUTE_5_HEIGHT + 3) * (ROUTE_5_WIDTH + 6))) ; strip destination
-	db 16, SAFFRON_CITY_WIDTH ; (connection strip length, connected map width)
-	db 0, 10 ; yoffset, xoffset
-	dw ($C807 + SAFFRON_CITY_WIDTH) ; window
 ; 0x95660
 
 CeruleanCity_SecondMapHeader: ; 0x95660
@@ -8800,7 +8786,15 @@ LRoute_SecondMapHeader:
 	dw LRoute_MapEventHeader
 
 	; connections
-	db 0
+	db NORTH
+	; NORTH to Meadow
+	db GROUP_MEADOW, MAP_MEADOW ; connected map (group, id)
+	dw (Meadow_BlockData + MEADOW_WIDTH + 10 + (16 * MEADOW_HEIGHT) - 16) ; strip pointer
+	dw ($C703 + 253) ; strip destination
+	db 16, MEADOW_WIDTH ; (connection strip length, connected map width)
+	db ((MEADOW_HEIGHT * 2) - 1), 0 ; yoffset, xoffset
+	dw ($C801 + ((MEADOW_HEIGHT * 6) + (MEADOW_HEIGHT * MEADOW_WIDTH))) ; window
+
 
 SpiralForest_SecondMapHeader:
 	; border block
@@ -8838,7 +8832,15 @@ Meadow_SecondMapHeader:
 	dw Meadow_MapEventHeader
 
 	; connections
-	db 0
+	db SOUTH
+
+	; SOUTH to LRoute
+	db GROUP_LROUTE, MAP_LROUTE ; connected map (group, id)
+	dw LRoute_BlockData;(LRoute_BlockData + ((10 - 16 + MEADOW_WIDTH) / 2)) ; strip pointer
+	dw ($C703 + 253 + ((MEADOW_HEIGHT + 3) * (MEADOW_WIDTH + 6))) ; strip destination
+	db 20, LROUTE_WIDTH ; (connection strip length, connected map width)
+	db 0, 0 ; yoffset, xoffset
+	dw ($C807 + LROUTE_WIDTH) ; window
 
 WaterChuteWay_SecondMapHeader:
 	; border block

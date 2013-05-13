@@ -4298,7 +4298,7 @@ LRoute_MapHeader:
 	dw LRoute_SecondMapHeader
 
 	; location on world map, music, time of day, fishing group
-	db $3, MUSIC_ROUTE_30, 1, 1
+	db $a, MUSIC_ROUTE_30, 1, 1
 
 SpiralForest_MapHeader:
 	; bank, tileset, permission
