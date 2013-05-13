@@ -403,9 +403,38 @@ def quote_translator(asm):
 
             if print_macro:
                 line = 0
+                line_px = 0
+                
+                words = []
+                word = []
+                for char in characters:
+                    if char == " ":
+                        words.append(word)
+                        word = []
+                    else:
+                        word.append(char)
+                if len(word):
+                    words.append(word)
+                
+                for word in words:
+                    output += ", ".join("${0:02X}".format(chars[char]) for char in word)
+                    word_len = count_vwf_length(word)+5
+                    line_px += word_len
+                    if line_px > 18*8:
+                        if not line & 1:
+                           word_ending = 0x4f
+                        else:
+                           word_ending = 0x51
+                        line += 1
+                        line_px = 0
+                    else:
+                        word_ending = 0x7f
+                    output += ", ${0:02X}, ".format(word_ending)
+                
+                """
                 while len(characters):
                     last_char = 1
-                    if len(characters) > 18 and characters[-1] != '@':
+                    if rest_length > 18*8 and characters[-1] != '@':
                         for i, char in enumerate(characters):
                             last_char = i + 1
                             if ' ' not in characters[i+1:18]: break
@@ -422,9 +451,12 @@ def quote_translator(asm):
                         output += ", ".join(["${0:02X}".format(chars[char]) for char in characters[:last_char]])
                     characters = characters[last_char:]
                     if len(characters): output += ", "
+                """
                 # end text
                 line_ending = 0x57
                 output += ", ${0:02X}".format(line_ending)
+                output = output.replace(", ,", ",") # I'm sorry
+                characters = []
 
             output += ", ".join(["${0:02X}".format(chars[char]) for char in characters])
 
@@ -437,6 +469,21 @@ def quote_translator(asm):
     sys.stdout.write(output)
 
     return
+
+def count_vwf_length(string):
+    pixels = 0
+    for char in string:
+        num = chars[char]-0x80
+        #raise RuntimeError(hex(num), vwftable[num], vwftable[0x13])
+        if num == -1:
+            pixels += 5
+        elif num in vwftable:
+            pixels += vwftable[num]
+        else:
+            pixels += 8 # XXX
+    
+    return pixels
+            
 
 def extract_token(asm):
     token = asm.split(" ")[0].replace("\t", "").replace("\n", "")

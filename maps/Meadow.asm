@@ -54,7 +54,7 @@ MeadowRandomPerson:
 	jumptextfaceplayer RandomPersonText
 
 RandomPersonText:
-    print "I've been looking for a very rare Pokémon for the past hour...  It should be around here somewhere."
+    print "I've been looking for a very rare Pokémon for the past hour... It should be around here somewhere."
 
 MeadowRandomPerson2:
 	faceplayer
@@ -89,7 +89,7 @@ MeadowRandomPerson2:
 	end
 
 MeadowRandomPerson2Text:
-    print "Oh no!  I was in that cave over there when somebody stole my backpack!  I can't really go back and challenge them..  Oh, what will I do?"
+    print "Oh no! I was in that cave over there when somebody stole my backpack! I can't really go back and challenge them.. Oh, what will I do?"
 
 MeadowRandomPerson2Text2:
     print "Golly, you got it for me? That's so kind of you. To express my gratitude, you can have this Eevee... I'm sure it would appreciate being with an energetic trainer such as you!"
