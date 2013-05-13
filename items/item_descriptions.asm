@@ -166,7 +166,7 @@ ItemDescriptions:
 	dw StarPieceDesc
 	dw BasementKeyDesc
 	dw PassDesc
-	dw TeruSama9Desc
+	dw BackpackDesc
 	dw TeruSama10Desc
 	dw TeruSama11Desc
 	dw CharcoalDesc
@@ -810,8 +810,9 @@ PassDesc:
 	db "A ticket for the",$4E
 	db "MAGNET TRAIN.@"
 
-TeruSama9Desc:
-	db "?@"
+BackpackDesc:
+	db "A backpack which",$4E
+	db "was stolen!@"
 
 TeruSama10Desc:
 	db "?@"

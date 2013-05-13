@@ -3477,11 +3477,11 @@ GruntMGroup:
 ; ================
 
 	; GRUNTM (1)
-	db "GRUNT@"
+	db "Grunt@"
 	db 0 ; normal
 
 	; party
-	db 14, KOFFING
+	db 5, KOFFING
 
 	db $ff ; end
 
