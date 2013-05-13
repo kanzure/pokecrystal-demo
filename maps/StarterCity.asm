@@ -16,7 +16,10 @@ StarterCity_MapEventHeader: ; 0x1ac7cf
 	db 0, 0
 
 	; warps
-	db 0
+	db 2
+	warp_def $14, $04, 1, GROUP_LROUTE, MAP_LROUTE
+	warp_def $15, $04, 2, GROUP_LROUTE, MAP_LROUTE
+	
 	; warp_def $5, $5, 1, GROUP_REDS_HOUSE_1F, MAP_REDS_HOUSE_1F
 	; warp_def $5, $d, 1, GROUP_BLUES_HOUSE, MAP_BLUES_HOUSE
 	; warp_def $b, $c, 1, GROUP_OAKS_LAB, MAP_OAKS_LAB

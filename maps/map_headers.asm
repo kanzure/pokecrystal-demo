@@ -4286,7 +4286,7 @@ BarrierCreator_MapHeader: ; 0x94da2
 	dw BarrierCreator_SecondMapHeader
 
 	; location on world map, music, time of day, fishing group
-	db $3, $26, 1, 1
+	db $a, $26, 1, 1
 
 LRoute_MapHeader:
 	; bank, tileset, permission
@@ -4306,7 +4306,7 @@ SpiralForest_MapHeader:
 	dw SpiralForest_SecondMapHeader
 
 	; location on world map, music, time of day, fishing group
-	db $3, $26, 1, 1
+	db $a, $26, 1, 1
 
 Meadow_MapHeader:
 	; bank, tileset, permission
@@ -4326,7 +4326,7 @@ WaterChuteWay_MapHeader:
 	dw WaterChuteWay_SecondMapHeader
 
 	; location on world map, music, time of day, fishing group
-	db $5, $26, 1, 1
+	db $a, $26, 1, 1
 
 ThirdCave_MapHeader:
 	; bank, tileset, permission
