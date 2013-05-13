@@ -4911,13 +4911,21 @@ SECTION "bank1",DATA,BANK[$1]
 
 INCBIN "baserom.gbc", $4000, $5f99 - $4000
 
-OakSpeech: ; 0x5f99
-	ld a, $24
-	ld hl, $4672
-	rst $8
-	call $04dd
+CallPlayerNamingScreen: ; 0x5f99
+        ld b, $1
+        ld de, $d47d
+        ld a, $4
+        ld hl, $56c1
+        rst $8
 	call ClearTileMap
-	ld de, $002b
+	ret
+; 12 bytes above, comment out 12 bytes below
+;	ld a, $24
+;	ld hl, $4672
+;	rst $8
+;	call $04dd
+;	call ClearTileMap
+;	ld de, $002b
 	call StartMusic
 	call $04a3
 	call $04b6
