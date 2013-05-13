@@ -25,8 +25,8 @@ LRoute_MapEventHeader: ;
 
 	; warps
 	db 2
-	warp_def $d, $e, 3, GROUP_STARTERCITY, MAP_STARTERCITY
-	warp_def $d, $e, 3, GROUP_STARTERCITY, MAP_STARTERCITY
+	warp_def $10, $21, 0, GROUP_STARTERCITY, MAP_STARTERCITY
+	warp_def $11, $21, 1, GROUP_STARTERCITY, MAP_STARTERCITY
 
 	; xy triggers
 	db 0
@@ -36,21 +36,27 @@ LRoute_MapEventHeader: ;
 	signpost 8, 8, $0, LRouteSignpostScript
 
 	; people-events
-    db 3
+    db 4
 
 	; spr y x facing movement hour daytime function sight pointer bit
-	person_event $54, $10+4, $15+4, $1, $0, 255, 255, $1, 0, LRoutePotion, $0450
-	person_event $3e, $17+4, $0c+4, $0, $0, 255, 255, $0, 0, LRouteRandomPerson, $ffff
-	person_event $9,  $20+4, $0e+4, $0, $0, 255, 255, $0, 0, LRouteRandomPerson2, $ffff
+	person_event $54, $0e+4, $0a+4, $1, $0, 255, 255, $1, 0, LRoutePotion, $0450
+	;person_event $3e, $17+4, $0c+4, $0, $0, 255, 255, $0, 0, LRouteRandomPerson, $ffff
+	;person_event $9,  $20+4, $0e+4, $0, $0, 255, 255, $0, 0, LRouteRandomPerson2, $ffff 
+	
+	person_event $99, $08+4, $12+4, $16, $0, 255, 255, $0, 0, $0, $ffff
+	person_event $99, $09+4, $13+4, $16, $0, 255, 255, $0, 0, $0, $ffff
+	person_event $33, $10+4, $12+4, $16, $0, 255, 255, $0, 0, LRouteRandomPerson, $ffff
+	;person_event $99, 16, 7, $16, $0, 255, 255, $0, 0, UnknownScript_0x1a5af5, $ffff
+	;person_event $99, 16, 7, $16, $0, 255, 255, $0, 0, UnknownScript_0x1a5af5, $ffff
 
 LRoutePotion:
 	db POTION, 1
 	
 LRouteRandomPerson:
-	jumptextfaceplayer RandomPersonText
+	jumptextfaceplayer LRouteRandomPersonText
 
 LRouteRandomPersonText:
-    print "Blah blah"
+    print "There is a Miltank farm here."
 
 LRouteRandomPerson2:
 	jumptextfaceplayer RandomPersonText
