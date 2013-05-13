@@ -4279,16 +4279,15 @@ CherrygrovePokeCenter1F_MapHeader: ; 0x94d99
 	db $3, $9, 1, 1
 ; 0x94da2
 
-CherrygroveGymSpeechHouse_MapHeader: ; 0x94da2
+BarrierCreator_MapHeader: ; 0x94da2
 	; bank, tileset, permission
-	db BANK(CherrygroveGymSpeechHouse_SecondMapHeader), $5, 3
+	db BANK(BarrierCreator_SecondMapHeader), 3, 3
 
 	; second map header
-	dw CherrygroveGymSpeechHouse_SecondMapHeader
+	dw BarrierCreator_SecondMapHeader
 
 	; location on world map, music, time of day, fishing group
 	db $3, $26, 1, 1
-; 0x94dab
 
 TickleWoods_MapHeader: ; 0x94dab
 	; bank, tileset, permission

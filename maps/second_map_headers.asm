@@ -8763,25 +8763,24 @@ CherrygrovePokeCenter1F_SecondMapHeader: ; 0x9665c
 	db 0
 ; 0x96668
 
-CherrygroveGymSpeechHouse_SecondMapHeader: ; 0x96668
+BarrierCreator_SecondMapHeader: ; 0x96668
 	; border block
-	db $0
+	db 19
 
 	; height, width
-	db CHERRYGROVE_GYM_SPEECH_HOUSE_HEIGHT, CHERRYGROVE_GYM_SPEECH_HOUSE_WIDTH
+	db BARRIER_CREATOR_HEIGHT, BARRIER_CREATOR_WIDTH
 
 	; blockdata (bank-then-pointer)
-	dbw BANK(OlivineVoltorbHouse_BlockData), OlivineVoltorbHouse_BlockData
+	dbw BANK(BarrierCreator_BlockData), BarrierCreator_BlockData
 
 	; script header (bank-then-pointer)
-	dbw BANK(CherrygroveGymSpeechHouse_MapScriptHeader), CherrygroveGymSpeechHouse_MapScriptHeader
+	dbw BANK(BarrierCreator_MapScriptHeader), BarrierCreator_MapScriptHeader
 
 	; map event header (bank-then-pointer)
-	dw CherrygroveGymSpeechHouse_MapEventHeader
+	dw BarrierCreator_MapEventHeader
 
 	; connections
 	db 0
-; 0x96674
 
 TickleWoods_SecondMapHeader:
 	; border block
