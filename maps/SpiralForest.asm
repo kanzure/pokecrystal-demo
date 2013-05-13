@@ -10,7 +10,10 @@ SpiralForest_MapEventHeader:
 	db 0, 0
 
 	; warps
-	db 6
+	db 7
+
+	; cave entrance/exit in middle
+	warp_def 21, 20, 1, GROUP_THIRDCAVE, MAP_THIRDCAVE
 
 	; These are grass warps, so feel free to remove the warps and just use
 	; connections.

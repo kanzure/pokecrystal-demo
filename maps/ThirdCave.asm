@@ -13,7 +13,7 @@ ThirdCave_MapEventHeader:
 	db 3
 
 	; top left
-	warp_def 1, 5, 1, GROUP_KRISS_HOUSE_2F, MAP_KRISS_HOUSE_2F
+	warp_def 1, 5, 1, GROUP_SPIRALFOREST, MAP_SPIRALFOREST
 
 	; top right
 	warp_def 1, 11, 1, GROUP_MEADOW, MAP_MEADOW
