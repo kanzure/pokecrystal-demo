@@ -3,7 +3,7 @@ StarterCity_MapScriptHeader: ; 0x1ac6cc
 	db 0
 
 	; callback count
-	db 1
+	db 0
 
 	; callbacks
 

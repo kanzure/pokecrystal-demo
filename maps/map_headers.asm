@@ -4312,6 +4312,16 @@ CherrygroveEvolutionSpeechHouse_MapHeader: ; 0x94db4
 	db $3, $26, 1, 1
 ; 0x94dbd
 
+Route30BerrySpeechHouse_MapHeader: ; 0x94dbd
+	; bank, tileset, permission
+	db BANK(Route30BerrySpeechHouse_SecondMapHeader), $5, 3
+
+	; second map header
+	dw Route30BerrySpeechHouse_SecondMapHeader
+
+	; location on world map, music, time of day, fishing group
+	db 4, $26, 1, 1
+
 WaterChuteWay_MapHeader:
 	; bank, tileset, permission
 	db BANK(WaterChuteWay_SecondMapHeader), $2, 3

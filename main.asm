@@ -6781,7 +6781,8 @@ TimeOfDayTable: ; 14044
 INCBIN "baserom.gbc", $1404c, $152ab - $1404c
 
 BlackoutPoints: ; 0x152ab
-	db GROUP_STARTERCITY, MAP_STARTERCITY, 3, 3
+	db GROUP_STARTERCITY, MAP_STARTERCITY, 15, 8
+;	db GROUP_KRISS_HOUSE_2F, MAP_KRISS_HOUSE_2F, 3, 3
 	db GROUP_VIRIDIAN_POKECENTER_1F, MAP_VIRIDIAN_POKECENTER_1F, 5, 3 ; unused
 	db GROUP_PALLET_TOWN, MAP_PALLET_TOWN, 5, 6
 	db GROUP_VIRIDIAN_CITY, MAP_VIRIDIAN_CITY, 23, 26
@@ -18673,7 +18674,7 @@ ThirdCave_BlockData:
 	INCBIN "maps/ThirdCave.blk"
 
 StarterCity_BlockData:
-    INCBIN "maps/StarterCity.blk"
+	INCBIN "maps/StarterCity.blk"
 
 SECTION "bank7B",DATA,BANK[$7B]
 

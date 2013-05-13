@@ -621,6 +621,12 @@ StarterCity_SecondMapHeader:
 	; connections
 	db 0
 
+db 0, 0, 0, 0, 0
+db 0, 0, 0, 0, 0
+db 0, 0, 0, 0, 0
+db 0, 0, 0, 0, 0
+db 0, 0, 0, 0
+
 Route32_SecondMapHeader: ; 0x95054
 	; border block
 	db $5
@@ -8817,6 +8823,25 @@ CherrygroveEvolutionSpeechHouse_SecondMapHeader: ; 0x96680
 	db 0
 ; 0x9668c
 
+Route30BerrySpeechHouse_SecondMapHeader: ; 0x9668c
+	; border block
+	db $0
+
+	; height, width
+	db ROUTE_30_BERRY_SPEECH_HOUSE_HEIGHT, ROUTE_30_BERRY_SPEECH_HOUSE_WIDTH
+
+	; blockdata (bank-then-pointer)
+	dbw BANK(OlivineVoltorbHouse_BlockData), OlivineVoltorbHouse_BlockData
+
+	; script header (bank-then-pointer)
+	dbw BANK(Route30BerrySpeechHouse_MapScriptHeader), Route30BerrySpeechHouse_MapScriptHeader
+
+	; map event header (bank-then-pointer)
+	dw Route30BerrySpeechHouse_MapEventHeader
+
+	; connections
+	db 0
+; 0x96698
 
 WaterChuteWay_SecondMapHeader:
 	; border block
