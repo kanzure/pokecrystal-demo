@@ -416,8 +416,8 @@ Route39_MapEventHeader: ; 0x1a60ba
 
 	; warps
 	db 2
-	warp_def $3, $1, 1, GROUP_ROUTE_39_BARN, MAP_ROUTE_39_BARN
-	warp_def $3, $5, 1, GROUP_ROUTE_39_FARMHOUSE, MAP_ROUTE_39_FARMHOUSE
+	warp_def $3, $1, 0, GROUP_ROUTE_39_BARN, MAP_ROUTE_39_BARN
+	warp_def $3, $5, 0, GROUP_ROUTE_39_FARMHOUSE, MAP_ROUTE_39_FARMHOUSE
 
 	; xy triggers
 	db 0
