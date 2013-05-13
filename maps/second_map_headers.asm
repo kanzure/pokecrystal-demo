@@ -2113,10 +2113,18 @@ DebugMap_SecondMapHeader: ; 0x95600
 	db GROUP_DEBUG_MAP, MAP_DEBUG_MAP
 	dw DebugMap_BlockData + (DEBUG_MAP_WIDTH + 6) * 3 + 3 ; strip pointer
 	dw $c800 + (DEBUG_MAP_WIDTH + 6) * 4 - 3 ; strip location
+	;dw $c800 + 100; strip location
+	;dw $c800 + 200; strip location
+	;dw $c800 + 50; strip location
+	;dw $c800 + 50; strip location
 	db DEBUG_MAP_HEIGHT ; strip length
 	db DEBUG_MAP_WIDTH ; connected map width
 	db 0, 0 ; x, y offset
-	dw $c800 + DEBUG_MAP_WIDTH + 6 + 1 
+	;db 15, 5 ; x, y offset
+	;dw $c800 + DEBUG_MAP_WIDTH + 6 + 1 
+	;dw $c800 + DEBUG_MAP_WIDTH
+	;dw $c800 + DEBUG_MAP_WIDTH + 30
+	dw $c800
 ; 0x9563c
 
 Route5_SecondMapHeader: ; 0x9563c
