@@ -4211,16 +4211,15 @@ Route5SaffronCityGate_MapHeader: ; 0x94d63
 	db $3a, $15, 1, 1
 ; 0x94d6c
 
-Route5CleanseTagSpeechHouse_MapHeader: ; 0x94d6c
+TickleWoods_MapHeader: ; 0x94dab
 	; bank, tileset, permission
-	db BANK(Route5CleanseTagSpeechHouse_SecondMapHeader), $5, 3
+	db BANK(TickleWoods_SecondMapHeader), 1, 3
 
 	; second map header
-	dw Route5CleanseTagSpeechHouse_SecondMapHeader
+	dw TickleWoods_SecondMapHeader
 
 	; location on world map, music, time of day, fishing group
-	db $3a, $15, 1, 1
-; 0x94d75
+	db $a, MUSIC_ROUTE_30, 1, 1
 
 
 MapGroup26:
@@ -4287,18 +4286,17 @@ BarrierCreator_MapHeader: ; 0x94da2
 	dw BarrierCreator_SecondMapHeader
 
 	; location on world map, music, time of day, fishing group
-	db $3, $26, 1, 1
+	db $a, $26, 1, 1
 
-TickleWoods_MapHeader: ; 0x94dab
+LRoute_MapHeader:
 	; bank, tileset, permission
-	db BANK(TickleWoods_SecondMapHeader), 1, 3
+	db BANK(LRoute_SecondMapHeader), 36, 3
 
 	; second map header
-	dw TickleWoods_SecondMapHeader
+	dw LRoute_SecondMapHeader
 
 	; location on world map, music, time of day, fishing group
-	db $3, $26, 1, 1
-; 0x94db4
+	db $a, MUSIC_ROUTE_30, 1, 1
 
 SpiralForest_MapHeader:
 	; bank, tileset, permission
@@ -4308,7 +4306,7 @@ SpiralForest_MapHeader:
 	dw SpiralForest_SecondMapHeader
 
 	; location on world map, music, time of day, fishing group
-	db $3, $26, 1, 1
+	db $a, $26, 1, 1
 
 Meadow_MapHeader:
 	; bank, tileset, permission
@@ -4328,7 +4326,7 @@ WaterChuteWay_MapHeader:
 	dw WaterChuteWay_SecondMapHeader
 
 	; location on world map, music, time of day, fishing group
-	db $5, $26, 1, 1
+	db $a, $26, 1, 1
 
 ThirdCave_MapHeader:
 	; bank, tileset, permission
