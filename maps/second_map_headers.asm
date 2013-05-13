@@ -602,41 +602,30 @@ Route30_SecondMapHeader: ; 0x9500c
 	dw ($C807 + CHERRYGROVE_CITY_WIDTH) ; window
 ; 0x95030
 
-Route31_SecondMapHeader: ; 0x95030
-	; border block
-	db $5
-
+StarterCity_SecondMapHeader:
+    ; border block
+	db $6
+	
 	; height, width
-	db ROUTE_31_HEIGHT, ROUTE_31_WIDTH
-
+	db STARTERCITY_HEIGHT, STARTERCITY_WIDTH
+	
 	; blockdata (bank-then-pointer)
-	dbw BANK(Route31_BlockData), Route31_BlockData
-
+	dbw BANK(StarterCity_BlockData), StarterCity_BlockData
+	
 	; script header (bank-then-pointer)
-	dbw BANK(Route31_MapScriptHeader), Route31_MapScriptHeader
-
-	; map event header (bank-then-pointer)
-	dw Route31_MapEventHeader
-
+	dbw BANK(StarterCity_MapScriptHeader), StarterCity_MapScriptHeader
+	
+	; map event header
+	dw StarterCity_MapEventHeader
+	
 	; connections
-	db SOUTH | WEST
+	db 0
 
-	; SOUTH to Route 30
-	db GROUP_ROUTE_30, MAP_ROUTE_30 ; connected map (group, id)
-	dw (Route30_BlockData) ; strip pointer
-	dw ($C703 + 266 + ((ROUTE_31_HEIGHT + 3) * (ROUTE_31_WIDTH + 6))) ; strip destination
-	db 10, ROUTE_30_WIDTH ; (connection strip length, connected map width)
-	db 0, 236 ; yoffset, xoffset
-	dw ($C807 + ROUTE_30_WIDTH) ; window
-
-	; WEST to Violet City
-	db GROUP_VIOLET_CITY, MAP_VIOLET_CITY ; connected map (group, id)
-	dw (VioletCity_BlockData + (((VIOLET_CITY_HEIGHT - ROUTE_31_HEIGHT) * VIOLET_CITY_WIDTH) - (VIOLET_CITY_WIDTH * 3) + (VIOLET_CITY_WIDTH - 1) - 2)) ; strip pointer
-	dw $c800 ; strip destination
-	db 12, VIOLET_CITY_WIDTH ; (connection strip length, connected map width)
-	db 18, ((VIOLET_CITY_WIDTH * 2) - 1) ; yoffset, xoffset
-	dw ($C807 + 39) ; window
-; 0x95054
+db 0, 0, 0, 0, 0
+db 0, 0, 0, 0, 0
+db 0, 0, 0, 0, 0
+db 0, 0, 0, 0, 0
+db 0, 0, 0, 0
 
 Route32_SecondMapHeader: ; 0x95054
 	; border block
@@ -8889,4 +8878,5 @@ ThirdCave_SecondMapHeader:
 
 	; connections
 	db 0
+
 
