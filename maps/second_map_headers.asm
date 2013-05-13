@@ -8689,25 +8689,24 @@ Route5SaffronCityGate_SecondMapHeader: ; 0x96638
 	db 0
 ; 0x96644
 
-Route5CleanseTagSpeechHouse_SecondMapHeader: ; 0x96644
+TickleWoods_SecondMapHeader:
 	; border block
-	db $0
+	db 5
 
 	; height, width
-	db ROUTE_5_CLEANSE_TAG_SPEECH_HOUSE_HEIGHT, ROUTE_5_CLEANSE_TAG_SPEECH_HOUSE_WIDTH
+	db TICKLE_WOODS_HEIGHT, TICKLE_WOODS_WIDTH
 
 	; blockdata (bank-then-pointer)
-	dbw BANK(OlivineVoltorbHouse_BlockData), OlivineVoltorbHouse_BlockData
+	dbw BANK(TickleWoods_BlockData), TickleWoods_BlockData
 
 	; script header (bank-then-pointer)
-	dbw BANK(Route5CleanseTagSpeechHouse_MapScriptHeader), Route5CleanseTagSpeechHouse_MapScriptHeader
+	dbw BANK(TickleWoods_MapScriptHeader), TickleWoods_MapScriptHeader
 
-	; map event header (bank-then-pointer)
-	dw Route5CleanseTagSpeechHouse_MapEventHeader
-
+	; map event header
+	dw TickleWoods_MapEventHeader
+	
 	; connections
 	db 0
-; 0x96650
 
 CherrygroveMart_SecondMapHeader: ; 0x96650
 	; border block
@@ -8749,25 +8748,24 @@ CherrygrovePokeCenter1F_SecondMapHeader: ; 0x9665c
 	db 0
 ; 0x96668
 
-CherrygroveGymSpeechHouse_SecondMapHeader: ; 0x96668
+BarrierCreator_SecondMapHeader: ; 0x96668
 	; border block
-	db $0
+	db 19
 
 	; height, width
-	db CHERRYGROVE_GYM_SPEECH_HOUSE_HEIGHT, CHERRYGROVE_GYM_SPEECH_HOUSE_WIDTH
+	db BARRIER_CREATOR_HEIGHT, BARRIER_CREATOR_WIDTH
 
 	; blockdata (bank-then-pointer)
-	dbw BANK(OlivineVoltorbHouse_BlockData), OlivineVoltorbHouse_BlockData
+	dbw BANK(BarrierCreator_BlockData), BarrierCreator_BlockData
 
 	; script header (bank-then-pointer)
-	dbw BANK(CherrygroveGymSpeechHouse_MapScriptHeader), CherrygroveGymSpeechHouse_MapScriptHeader
+	dbw BANK(BarrierCreator_MapScriptHeader), BarrierCreator_MapScriptHeader
 
 	; map event header (bank-then-pointer)
-	dw CherrygroveGymSpeechHouse_MapEventHeader
+	dw BarrierCreator_MapEventHeader
 
 	; connections
 	db 0
-; 0x96674
 
 LRoute_SecondMapHeader:
 	; border block
@@ -8809,7 +8807,7 @@ SpiralForest_SecondMapHeader:
 	; script header (bank-then-pointer)
 	dbw BANK(SpiralForest_MapScriptHeader), SpiralForest_MapScriptHeader
 
-	; map event header (bank-then-pointer)
+	; map event header
 	dw SpiralForest_MapEventHeader
 
 	; connections
