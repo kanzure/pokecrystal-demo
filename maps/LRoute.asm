@@ -45,7 +45,7 @@ LRoute_MapEventHeader: ;
 	
 	person_event $99, $08+4, $12+4, $16, $0, 255, 255, $0, 0, $0, $ffff
 	person_event $99, $09+4, $13+4, $16, $0, 255, 255, $0, 0, $0, $ffff
-	person_event $22, $10+4, $12+4, $0, $0, 255, 255, $0, 0, LRouteRandomPerson, $ffff
+	person_event $22, $10+4, $12+4, $2, $0, 255, 255, $0, 0, LRouteRandomPerson, $ffff
 	person_event $24, $0b+4, $0c+4, $0, $0, 255, 255, $0, 0, LRouteRandomPerson2, $ffff
 	
 	;unused, to force sprites in meadow

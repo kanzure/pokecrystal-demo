@@ -4200,15 +4200,15 @@ Route5UndergroundEntrance_MapHeader: ; 0x94d5a
 	db $3a, $3, 1, 1
 ; 0x94d63
 
-Route5SaffronCityGate_MapHeader: ; 0x94d63
+StarterCityIndoors_MapHeader: ; 0x94dab
 	; bank, tileset, permission
-	db BANK(Route5SaffronCityGate_SecondMapHeader), $8, 6
+	db BANK(StarterCityIndoors_SecondMapHeader), 5, 3
 
 	; second map header
-	dw Route5SaffronCityGate_SecondMapHeader
+	dw StarterCityIndoors_SecondMapHeader
 
 	; location on world map, music, time of day, fishing group
-	db $3a, $15, 1, 1
+	db $a, $26, 1, 1
 ; 0x94d6c
 
 TickleWoods_MapHeader: ; 0x94dab

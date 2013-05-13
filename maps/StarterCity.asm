@@ -16,9 +16,16 @@ StarterCity_MapEventHeader: ; 0x1ac7cf
 	db 0, 0
 
 	; warps
-	db 2
+	db 5
 	warp_def $14, $04, 1, GROUP_LROUTE, MAP_LROUTE
 	warp_def $15, $04, 2, GROUP_LROUTE, MAP_LROUTE
+	
+	; top right house
+	warp_def $09, $1b, 1, GROUP_STARTERCITYINDOORS, MAP_STARTERCITYINDOORS
+	; middle right house
+	warp_def $15, $1b, 3, GROUP_STARTERCITYINDOORS, MAP_STARTERCITYINDOORS
+	; bottom right house
+	warp_def $1d, $1b, 5, GROUP_STARTERCITYINDOORS, MAP_STARTERCITYINDOORS
 	
 	; warp_def $5, $5, 1, GROUP_REDS_HOUSE_1F, MAP_REDS_HOUSE_1F
 	; warp_def $5, $d, 1, GROUP_BLUES_HOUSE, MAP_BLUES_HOUSE
@@ -35,8 +42,20 @@ StarterCity_MapEventHeader: ; 0x1ac7cf
 	; signpost 5, 11, $0, MapPalletTownSignpost3Script
 
 	; people-events
-	db 0
-	; person_event $29, 12, 7, $2, $22, 255, 255, $0, 0, UnknownScript_0x1ac6d5, $ffff
-	; person_event $3a, 18, 16, $5, $2, 255, 255, $a0, 0, UnknownScript_0x1ac6d8, $ffff
-; 0x1ac812
+	db 2
+	; spr y x facing movement hour daytime function sight pointer bit
+	person_event $28, $08+4, $12+4, $0, $22, 255, 255, $0, 0, StarterCityPerson1, $ffff
+	person_event $2a, $10+4, $0b+4, $0, $22, 255, 255, $0, 0, StarterCityPerson2, $ffff
 
+
+StarterCityPerson1:
+	jumptextfaceplayer StarterCityPerson1Text
+
+StarterCityPerson1Text:
+    print "The Gym is closed. Go play somewhere else! Like the Meadow. Hint hint."
+
+StarterCityPerson2:
+	jumptextfaceplayer StarterCityPerson2Text
+
+StarterCityPerson2Text:
+    print "This Pokécenter is closed until tyrons maps it. Stay tuned!"

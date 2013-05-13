@@ -8669,25 +8669,24 @@ Route5UndergroundEntrance_SecondMapHeader: ; 0x9662c
 	db 0
 ; 0x96638
 
-Route5SaffronCityGate_SecondMapHeader: ; 0x96638
+StarterCityIndoors_SecondMapHeader:
 	; border block
-	db $0
+	db 0
 
 	; height, width
-	db ROUTE_5_SAFFRON_CITY_GATE_HEIGHT, ROUTE_5_SAFFRON_CITY_GATE_WIDTH
+	db STARTERCITYINDOORS_HEIGHT, STARTERCITYINDOORS_WIDTH
 
 	; blockdata (bank-then-pointer)
-	dbw BANK(SafariZoneFuchsiaGateBeta_BlockData), SafariZoneFuchsiaGateBeta_BlockData
+	dbw BANK(StarterCityIndoors_BlockData), StarterCityIndoors_BlockData
 
 	; script header (bank-then-pointer)
-	dbw BANK(Route5SaffronCityGate_MapScriptHeader), Route5SaffronCityGate_MapScriptHeader
+	dbw BANK(StarterCityIndoors_MapScriptHeader), StarterCityIndoors_MapScriptHeader
 
-	; map event header (bank-then-pointer)
-	dw Route5SaffronCityGate_MapEventHeader
-
+	; map event header
+	dw StarterCityIndoors_MapEventHeader
+	
 	; connections
 	db 0
-; 0x96644
 
 TickleWoods_SecondMapHeader:
 	; border block
