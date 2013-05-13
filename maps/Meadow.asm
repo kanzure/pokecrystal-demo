@@ -35,17 +35,19 @@ Meadow_MapEventHeader: ;
 	signpost 8, 8, $0, MapMeadowSignpost0Script
 
 	; people-events
-    db 5
+    db 7
 
 	; spr y x facing movement hour daytime function sight pointer bit
 	person_event $54, $10+4, $15+4, $1, $0, 255, 255, $1, 0, MeadowSuperPotion, $065b
 	person_event $3e, $17+4, $0c+4, $0, $0, 255, 255, $0, 0, MeadowRandomPerson, $ffff
 	person_event $9,  $20+4, $0e+4, $0, $0, 255, 255, $0, 0, MeadowRandomPerson2, $ffff
+	person_event $14, $08+4, $14+4, $0, $0, 255, 255, $0, 0, MeadowRandomPerson3, $ffff
 	
 	; unused, to force sprites in l route
 	
 	person_event $99, $0+4, $0+4, $16, $0, 255, 255, $0, 0, $0, $ffff
 	person_event $22, $0+4, $0+4, $1, $0, 255, 255, $0, 0, 0, $ffff
+	person_event $24, $0+4, $0+4, $1, $0, 255, 255, $0, 0, 0, $ffff
 
 MeadowSuperPotion:
 	db SUPER_POTION, 5
@@ -54,7 +56,7 @@ MeadowRandomPerson:
 	jumptextfaceplayer RandomPersonText
 
 RandomPersonText:
-    print "I've been looking for a very rare Pokémon for the past hour...  It should be around here somewhere."
+    print "I've been looking for a very rare Pokémon for the past hour... It should be around here somewhere."
 
 MeadowRandomPerson2:
 	faceplayer
@@ -89,7 +91,7 @@ MeadowRandomPerson2:
 	end
 
 MeadowRandomPerson2Text:
-    print "Oh no!  I was in that cave over there when somebody stole my backpack!  I can't really go back and challenge them..  Oh, what will I do?"
+    print "Oh no! I was in that cave over there when somebody stole my backpack! I can't really go back and challenge them.. Oh, what will I do?"
 
 MeadowRandomPerson2Text2:
     print "Golly, you got it for me? That's so kind of you. To express my gratitude, you can have this Eevee... I'm sure it would appreciate being with an energetic trainer such as you!"
@@ -99,3 +101,10 @@ MeadowReceivedEeveeText:
 
 MeadowRandomPerson2Text3:
     print "How is that Eevee I gave you doing? Maybe you should evolve it!"
+
+
+MeadowRandomPerson3:
+	jumptextfaceplayer MeadowRandomPerson3Text
+
+MeadowRandomPerson3Text:
+    print "I love the mountain air here. I want to be a Hiker..."

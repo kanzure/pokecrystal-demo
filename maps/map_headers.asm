@@ -4243,7 +4243,7 @@ StarterCity_MapHeader:
 	dw StarterCity_SecondMapHeader
 	
 	; location on world map, music, time of day, fishing group
-	db $c, $26, 1, 1
+	db $a, $26, 1, 1
 
 CherrygroveCity_MapHeader: ; 0x94d87
 	; bank, tileset, permission

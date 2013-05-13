@@ -8789,7 +8789,7 @@ LRoute_SecondMapHeader:
 	db GROUP_MEADOW, MAP_MEADOW ; connected map (group, id)
 	dw (Meadow_BlockData + MEADOW_WIDTH + 10 + (16 * MEADOW_HEIGHT) - 16) ; strip pointer
 	dw ($C703 + 253) ; strip destination
-	db 16, MEADOW_WIDTH ; (connection strip length, connected map width)
+	db 20, MEADOW_WIDTH ; (connection strip length, connected map width)
 	db ((MEADOW_HEIGHT * 2) - 1), 0 ; yoffset, xoffset
 	dw ($C801 + ((MEADOW_HEIGHT * 6) + (MEADOW_HEIGHT * MEADOW_WIDTH))) ; window
 
