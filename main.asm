@@ -19086,6 +19086,7 @@ INCLUDE "maps/StarterCity.asm"
 INCLUDE "maps/LRoute.asm"
 INCLUDE "maps/TickleWoods.asm"
 INCLUDE "maps/BarrierCreator.asm"
+INCLUDE "maps/StarterCityIndoors.asm"
 
 SECTION "bank6E",DATA,BANK[$6E]
 
@@ -19673,6 +19674,9 @@ TickleWoods_BlockData:
 
 BarrierCreator_BlockData:
 	INCBIN "maps/BarrierCreator.blk"
+
+StarterCityIndoors_BlockData:
+	INCBIN "maps/StarterCityIndoors.blk"
 
 SECTION "bank7B",DATA,BANK[$7B]
 
