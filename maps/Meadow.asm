@@ -16,7 +16,7 @@ MapMeadowSignpost0Script: ;
 ; 0x1a80cb
 
 MeadowSignpost: 
-	print "White Meadow"
+	print "Meadow"
 ; 0x1a834d
 
 Meadow_MapEventHeader: ; 
@@ -32,7 +32,7 @@ Meadow_MapEventHeader: ;
 
 	; signposts
 	db 1
-	signpost 8, 8, $0, MapMeadowSignpost0Script
+	signpost $23, $0b, $0, MapMeadowSignpost0Script
 
 	; people-events
     db 7
