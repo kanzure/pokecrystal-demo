@@ -8765,7 +8765,7 @@ CherrygrovePokeCenter1F_SecondMapHeader: ; 0x9665c
 
 BarrierCreator_SecondMapHeader: ; 0x96668
 	; border block
-	db $0
+	db 19
 
 	; height, width
 	db BARRIER_CREATOR_HEIGHT, BARRIER_CREATOR_WIDTH
