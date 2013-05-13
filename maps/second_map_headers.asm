@@ -8783,21 +8783,21 @@ CherrygroveGymSpeechHouse_SecondMapHeader: ; 0x96668
 	db 0
 ; 0x96674
 
-TickleForest_SecondMapHeader:
+TickleWoods_SecondMapHeader:
 	; border block
 	db 5
 
 	; height, width
-	db TICKLE_FOREST_HEIGHT, TICKLE_FOREST_WIDTH
+	db TICKLE_WOODS_HEIGHT, TICKLE_WOODS_WIDTH
 
 	; blockdata (bank-then-pointer)
-	dbw BANK(TickleForest_BlockData), TickleForest_BlockData
+	dbw BANK(TickleWoods_BlockData), TickleWoods_BlockData
 
 	; script header (bank-then-pointer)
-	dbw BANK(TickleForest_MapScriptHeader), TickleForest_MapScriptHeader
+	dbw BANK(TickleWoods_MapScriptHeader), TickleWoods_MapScriptHeader
 
 	; map event header
-	dw TickleForest_MapEventHeader
+	dw TickleWoods_MapEventHeader
 
 	; connections
 	db 0
