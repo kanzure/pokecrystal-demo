@@ -4068,12 +4068,12 @@ Route5_MapHeader: ; 0x94cee
 	db $3a, $3, 0, 1
 ; 0x94cf7
 
-SaffronCity_MapHeader: ; 0x94cf7
+DebugMap_MapHeader: ; 0x94cf7
 	; bank, tileset, permission
-	db BANK(SaffronCity_SecondMapHeader), $3, 1
+	db BANK(DebugMap_SecondMapHeader), $3, 1
 
 	; second map header
-	dw SaffronCity_SecondMapHeader
+	dw DebugMap_SecondMapHeader
 
 	; location on world map, music, time of day, fishing group
 	db $48, $15, 0, 1

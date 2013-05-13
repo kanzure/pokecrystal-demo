@@ -2063,7 +2063,7 @@ Route6_SecondMapHeader: ; 0x955dc
 	dw ($C807 + VERMILION_CITY_WIDTH) ; window
 ; 0x95600
 
-SaffronCity_SecondMapHeader: ; 0x95600
+DebugMap_SecondMapHeader: ; 0x95600
 	; border block
 	db $f
 
@@ -2071,48 +2071,52 @@ SaffronCity_SecondMapHeader: ; 0x95600
 	db SAFFRON_CITY_HEIGHT, SAFFRON_CITY_WIDTH
 
 	; blockdata (bank-then-pointer)
-	dbw BANK(SaffronCity_BlockData), SaffronCity_BlockData
+	dbw BANK(DebugMap_BlockData), DebugMap_BlockData
 
 	; script header (bank-then-pointer)
-	dbw BANK(SaffronCity_MapScriptHeader), SaffronCity_MapScriptHeader
+	dbw BANK(DebugMap_MapScriptHeader), DebugMap_MapScriptHeader
 
 	; map event header (bank-then-pointer)
-	dw SaffronCity_MapEventHeader
+	dw DebugMap_MapEventHeader
 
 	; connections
 	db NORTH | SOUTH | WEST | EAST
 
-	; NORTH to Route 5
-	db GROUP_ROUTE_5, MAP_ROUTE_5 ; connected map (group, id)
-	dw (Route5_BlockData + (ROUTE_5_HEIGHT * ROUTE_5_WIDTH) - (ROUTE_5_WIDTH * 3)) ; strip pointer
-	dw ($C703 + 261) ; strip destination
-	db 10, ROUTE_5_WIDTH ; (connection strip length, connected map width)
-	db ((ROUTE_5_HEIGHT * 2) - 1), 246 ; yoffset, xoffset
-	dw ($C801 + ((ROUTE_5_HEIGHT * 6) + (ROUTE_5_HEIGHT * ROUTE_5_WIDTH))) ; window
+	; NORTH to DebugMap
+	db GROUP_DEBUG_MAP, MAP_DEBUG_MAP
+	dw DebugMap_BlockData + DEBUG_MAP_WIDTH * (DEBUG_MAP_HEIGHT - 3) ; strip pointer
+	dw $c800 + 3 ; strip location
+	db DEBUG_MAP_WIDTH ; strip length
+	db DEBUG_MAP_WIDTH ; connected map width
+	db 0, 0 ; x, y offset
+	dw $c800 + (DEBUG_MAP_WIDTH + 6) * (DEBUG_MAP_HEIGHT) + 1 ; window
 
-	; SOUTH to Route 6
-	db GROUP_ROUTE_6, MAP_ROUTE_6 ; connected map (group, id)
-	dw (Route6_BlockData) ; strip pointer
-	dw ($C703 + 261 + ((SAFFRON_CITY_HEIGHT + 3) * (SAFFRON_CITY_WIDTH + 6))) ; strip destination
-	db 10, ROUTE_6_WIDTH ; (connection strip length, connected map width)
-	db 0, 246 ; yoffset, xoffset
-	dw ($C807 + ROUTE_6_WIDTH) ; window
+	; SOUTH to DebugMap
+	db GROUP_DEBUG_MAP, MAP_DEBUG_MAP
+	dw DebugMap_BlockData ; strip pointer
+	dw $c800 + (DEBUG_MAP_WIDTH + 6) * (DEBUG_MAP_HEIGHT + 3) ; strip location
+	db DEBUG_MAP_WIDTH ; strip length
+	db DEBUG_MAP_WIDTH ; connected map width
+	db 0, 0 ; x, y offset
+	dw $c800 + DEBUG_MAP_WIDTH + 6 + 1 ; window
 
-	; WEST to Route 7
-	db GROUP_ROUTE_7, MAP_ROUTE_7 ; connected map (group, id)
-	dw (Route7_BlockData + ROUTE_7_WIDTH - 3) ; strip pointer
-	dw $c938 ; strip destination
-	db 9, ROUTE_7_WIDTH ; (connection strip length, connected map width)
-	db 238, ((ROUTE_7_WIDTH * 2) - 1) ; yoffset, xoffset
-	dw ($C807 + 19) ; window
+	; WEST to DebugMap
+	db GROUP_DEBUG_MAP, MAP_DEBUG_MAP
+	dw DebugMap_BlockData + (DEBUG_MAP_WIDTH + 6) * 3 - 6 ; strip pointer
+	dw $c800 + (DEBUG_MAP_WIDTH + 6) * 3 ; strip location
+	db DEBUG_MAP_HEIGHT ; strip length
+	db DEBUG_MAP_WIDTH ; connected map width
+	db 0, 0 ; x, y offset
+	dw $c800 + DEBUG_MAP_WIDTH * 2 + 6 ; window
 
-	; EAST to Route 8
-	db GROUP_ROUTE_8, MAP_ROUTE_8 ; connected map (group, id)
-	dw (Route8_BlockData) ; strip pointer
-	dw $c94f ; strip destination
-	db 9, ROUTE_8_WIDTH ; (connection strip length, connected map width)
-	db 238, 0 ; yoffset, xoffset
-	dw ($C807 + ROUTE_8_WIDTH) ; window
+	; EAST to DebugMap
+	db GROUP_DEBUG_MAP, MAP_DEBUG_MAP
+	dw DebugMap_BlockData + (DEBUG_MAP_WIDTH + 6) * 3 + 3 ; strip pointer
+	dw $c800 + (DEBUG_MAP_WIDTH + 6) * 4 - 3 ; strip location
+	db DEBUG_MAP_HEIGHT ; strip length
+	db DEBUG_MAP_WIDTH ; connected map width
+	db 0, 0 ; x, y offset
+	dw $c800 + DEBUG_MAP_WIDTH + 6 + 1 
 ; 0x9563c
 
 Route5_SecondMapHeader: ; 0x9563c
