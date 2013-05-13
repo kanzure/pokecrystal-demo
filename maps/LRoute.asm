@@ -16,7 +16,7 @@ LRouteSignpostScript: ;
 ; 0x1a80cb
 
 LRouteSignpost: 
-	print "L Route; Right: Starter City"
+	print "You are on the L Route. To the right is Starter City."
 ; 0x1a834d
 
 LRoute_MapEventHeader: ; 
@@ -33,10 +33,10 @@ LRoute_MapEventHeader: ;
 
 	; signposts
 	db 1
-	signpost 8, 8, $0, LRouteSignpostScript
+	signpost $12, $1e, $0, LRouteSignpostScript
 
 	; people-events
-    db 6
+    db 8
 
 	; spr y x facing movement hour daytime function sight pointer bit
 	person_event $54, $0e+4, $0a+4, $1, $0, 255, 255, $1, 0, LRoutePotion, $0450
@@ -45,12 +45,14 @@ LRoute_MapEventHeader: ;
 	
 	person_event $99, $08+4, $12+4, $16, $0, 255, 255, $0, 0, $0, $ffff
 	person_event $99, $09+4, $13+4, $16, $0, 255, 255, $0, 0, $0, $ffff
-	person_event $22, $10+4, $12+4, $1, $0, 255, 255, $0, 0, LRouteRandomPerson, $ffff
+	person_event $22, $10+4, $12+4, $0, $0, 255, 255, $0, 0, LRouteRandomPerson, $ffff
+	person_event $24, $0b+4, $0c+4, $0, $0, 255, 255, $0, 0, LRouteRandomPerson2, $ffff
 	
 	;unused, to force sprites in meadow
 	
 	person_event $3e, 29+4, 20+4, $0, $0, 255, 255, $0, 0, 0, $ffff
 	person_event $9,  29+4, 20+4, $0, $0, 255, 255, $0, 0, 0, $ffff
+	person_event $14,  29+4, 20+4, $0, $0, 255, 255, $0, 0, 0, $ffff
 
 LRoutePotion:
 	db POTION, 1
@@ -62,8 +64,8 @@ LRouteRandomPersonText:
     print "There is a Miltank farm here."
 
 LRouteRandomPerson2:
-	jumptextfaceplayer RandomPersonText
+	jumptextfaceplayer LRouteRandomPerson2Text
 
 LRouteRandomPerson2Text:
-    print "Blah blah"
+    print "Did you know you can jump over these ledges? ...Oh, you did? Okay."
 
