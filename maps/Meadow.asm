@@ -35,17 +35,19 @@ Meadow_MapEventHeader: ;
 	signpost 8, 8, $0, MapMeadowSignpost0Script
 
 	; people-events
-    db 5
+    db 7
 
 	; spr y x facing movement hour daytime function sight pointer bit
 	person_event $54, $10+4, $15+4, $1, $0, 255, 255, $1, 0, MeadowSuperPotion, $065b
 	person_event $3e, $17+4, $0c+4, $0, $0, 255, 255, $0, 0, MeadowRandomPerson, $ffff
 	person_event $9,  $20+4, $0e+4, $0, $0, 255, 255, $0, 0, MeadowRandomPerson2, $ffff
+	person_event $14, $08+4, $14+4, $0, $0, 255, 255, $0, 0, MeadowRandomPerson3, $ffff
 	
 	; unused, to force sprites in l route
 	
 	person_event $99, $0+4, $0+4, $16, $0, 255, 255, $0, 0, $0, $ffff
 	person_event $22, $0+4, $0+4, $1, $0, 255, 255, $0, 0, 0, $ffff
+	person_event $24, $0+4, $0+4, $1, $0, 255, 255, $0, 0, 0, $ffff
 
 MeadowSuperPotion:
 	db SUPER_POTION, 5
@@ -99,3 +101,10 @@ MeadowReceivedEeveeText:
 
 MeadowRandomPerson2Text3:
     print "How is that Eevee I gave you doing? Maybe you should evolve it!"
+
+
+MeadowRandomPerson3:
+	jumptextfaceplayer MeadowRandomPerson3Text
+
+MeadowRandomPerson3Text:
+    print "I love the mountain air here. I want to be a Hiker..."
