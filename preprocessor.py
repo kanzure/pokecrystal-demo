@@ -659,9 +659,18 @@ def read_line(l):
     if comment != None:
         sys.stdout.write(comment)
 
+def get_vwf_table():
+    global vwftable
+    vwftable = []
+    for line in open('text/vwftable.asm', 'r').readlines():
+        for num in line[3:].split(', '):
+            vwftable.append(int(num))
+        
+
 def preprocess(lines=None):
     """Main entry point for the preprocessor."""
-
+    get_vwf_table()
+    
     if not lines:
         # read each line from stdin
         lines = sys.stdin
