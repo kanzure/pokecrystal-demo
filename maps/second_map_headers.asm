@@ -8787,11 +8787,11 @@ LRoute_SecondMapHeader:
 	db NORTH
 	; NORTH to Meadow
 	db GROUP_MEADOW, MAP_MEADOW ; connected map (group, id)
-	dw (Meadow_BlockData + MEADOW_WIDTH + 10 + (16 * MEADOW_HEIGHT) - 16) ; strip pointer
-	dw ($C703 + 253) ; strip destination
+	dw (Meadow_BlockData + MEADOW_WIDTH * (MEADOW_HEIGHT - 3)) ; strip pointer
+	dw $C803 ; strip destination
 	db 20, MEADOW_WIDTH ; (connection strip length, connected map width)
 	db ((MEADOW_HEIGHT * 2) - 1), 0 ; yoffset, xoffset
-	dw ($C801 + ((MEADOW_HEIGHT * 6) + (MEADOW_HEIGHT * MEADOW_WIDTH))) ; window
+	dw ($C801 + ((MEADOW_HEIGHT) * (MEADOW_WIDTH + 6))) ; window
 
 
 SpiralForest_SecondMapHeader:
@@ -8834,8 +8834,8 @@ Meadow_SecondMapHeader:
 
 	; SOUTH to LRoute
 	db GROUP_LROUTE, MAP_LROUTE ; connected map (group, id)
-	dw LRoute_BlockData;(LRoute_BlockData + ((10 - 16 + MEADOW_WIDTH) / 2)) ; strip pointer
-	dw ($C703 + 253 + ((MEADOW_HEIGHT + 3) * (MEADOW_WIDTH + 6))) ; strip destination
+	dw LRoute_BlockData; strip pointer
+	dw $c800 + 3*(MEADOW_WIDTH + 6) + 3 + (MEADOW_WIDTH + 6) * MEADOW_HEIGHT ; strip destination
 	db 20, LROUTE_WIDTH ; (connection strip length, connected map width)
 	db 0, 0 ; yoffset, xoffset
 	dw ($C807 + LROUTE_WIDTH) ; window
