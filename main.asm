@@ -126,6 +126,28 @@ Char51: ; newline char
     rst $18
     jp Char51_
 
+TextScriptCmdTextFromRam: ; was 1449
+    ld a, $6
+    rst $18
+	ld a, [hli]
+	ld e, a
+	ld a, [hli]
+	ld d, a
+	push hl
+	ld h, b
+	ld l, c
+	call PlaceString
+	pop hl
+    ld a, $7
+    rst $18
+	ret
+; 0x1455
+
+ParseTextScript:
+    ld a, $4
+    rst $18
+    jp $13f6
+
 SECTION "romheader",HOME[$100]
 Start:
 	nop
@@ -1607,7 +1629,15 @@ Char5F: ; 0x1356
 	pop hl
 	ret
 
-INCBIN "baserom.gbc", $135a, $15d8 - $135a
+INCBIN "baserom.gbc", $135a, $1412 - $135a
+
+    dw TextScriptCmdTextFromRam
+
+INCBIN "baserom.gbc", $1414, $1465 - $1414
+
+    call ParseTextScript
+
+INCBIN "baserom.gbc", $1468, $15d8 - $1468
 
 DMATransfer: ; 15d8
 ; DMA transfer
@@ -19335,11 +19365,13 @@ HackPredef:
 
 HackPredefTable:
     dw WriteCharAdvice ; 0
-    dw ResetVWFString
-    dw NamingScreenDisableVWF
-    dw NamingScreenEnableVWF
-    dw ResetVWFNewline
-    dw DecStringDepth
+    dw ResetVWFString ; 1
+    dw NamingScreenDisableVWF ; 2
+    dw NamingScreenEnableVWF ; 3
+    dw ResetVWFNewline ; 4
+    dw DecStringDepth ; 5
+    dw VWFResetDisable ; 6
+    dw VWFResetEnableAfterOne ; 7
 
 WriteCharAdvice:
     ld a, [VWFDisabled]
@@ -19398,9 +19430,18 @@ ResetVWF:
 	ret
 
 ResetVWFString:
+    ld a, [VWFResetDisabled]
+    cp $ff
+    jr z, .once
+    cp $0
+    ret nz
     ld a, [StringDepth] ; if not substring
     and a
     jr z, ResetVWF
+    ret
+.once
+    xor a
+    ld [VWFResetDisabled], a
     ret
     
 ResetVWFNewline:
@@ -19647,6 +19688,21 @@ DecStringDepth:
     ld a, [StringDepth]
     dec a
     ld [StringDepth], a
+    ret
+
+VWFResetDisable:
+    ld a, $1
+    ld [VWFResetDisabled], a
+    ret
+
+VWFResetEnableAfterOne:
+    ld a, $ff
+    ld [VWFResetDisabled], a
+    ret
+
+VWFResetEnable:
+    xor a
+    ld [VWFResetDisabled], a
     ret
 
 SECTION "bank7A",DATA,BANK[$7A]
