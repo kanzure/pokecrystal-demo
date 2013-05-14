@@ -39,7 +39,9 @@ VWFCharWidth:
 ;    ds 1
 VWFDisabled:
     ds 1
-StringDepth:
+VWFResetDisabled: ; c00c
+    ds 1
+StringDepth: ; c00d
     ds 1
 
     ds 2
