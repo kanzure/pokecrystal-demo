@@ -4316,7 +4316,7 @@ Meadow_MapHeader:
 	dw Meadow_SecondMapHeader
 
 	; location on world map, music, time of day, fishing group
-	db $a, MUSIC_NATIONAL_PARK, 18, 3
+	db $a, MUSIC_NATIONAL_PARK, 1, 3
 
 WaterChuteWay_MapHeader:
 	; bank, tileset, permission
@@ -4330,7 +4330,7 @@ WaterChuteWay_MapHeader:
 
 ThirdCave_MapHeader:
 	; bank, tileset, permission
-	db BANK(ThirdCave_SecondMapHeader), $18, 3
+	db BANK(ThirdCave_SecondMapHeader), $18, 4
 
 	; second map header
 	dw ThirdCave_SecondMapHeader
