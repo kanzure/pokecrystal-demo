@@ -148,10 +148,17 @@ ParseTextScript:
     rst $18
     jp $13f6
 
+StartDoubleSpeedMode:
+    ld a, 01
+    ld [rKEY1], a
+    stop
+    ld a, $11
+	jp $016e
+
 SECTION "romheader",HOME[$100]
 Start:
 	nop
-	jp $016e
+	jp StartDoubleSpeedMode
 
 SECTION "start",HOME[$150]
 
@@ -19404,7 +19411,7 @@ ResetVWF:
     xor a
     ;ld [W_VWF_LETTERNUM], a
     ;ld [W_VWF_CURTILENUM], a
-    ld [VWFCurTileRow], a
+    ;ld [VWFCurTileRow], a
     ld [VWFCurTileCol], a
     ld hl, VWFCurTileNum
     inc [hl]
@@ -19455,8 +19462,9 @@ CopyColumn:
     push hl
     push de
     ld a, $08
-    ld [VWFCurTileRow], a
+    ;ld [VWFCurTileRow], a
 .Copy
+    push af
     ld a, [de]
     and a, b
     jr nz, .CopyOne
@@ -19471,9 +19479,10 @@ CopyColumn:
 .Next
     ld [hli],a
     inc de
-    ld a, [VWFCurTileRow]
+    ;ld a, [VWFCurTileRow]
+    pop af
     dec a
-    ld [VWFCurTileRow], a
+    ;ld [VWFCurTileRow], a
     jp nz, .Copy
     pop de
     pop hl

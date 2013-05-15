@@ -29,8 +29,8 @@ VWFCurTileNum:
     ds 1
 VWFCurTileCol:
     ds 1
-VWFCurTileRow:
-    ds 1
+;VWFCurTileRow:
+;    ds 1
 VWFNumTilesUsed:
     ds 1
 VWFCharWidth:
@@ -44,8 +44,6 @@ VWFResetDisabled: ; c00c
 StringDepth: ; c00d
     ds 1
 
-    ds 2
-
 VWFBuildArea0:
     ds 8
 VWFBuildArea1:
@@ -54,7 +52,7 @@ VWFBuildArea2:
     ds 8
 VWFBuildArea3:
     ds 8
-SECTION "vwfcopy",BSS[$c050]
+SECTION "vwfcopy",BSS[$c040]
 VWFCopyArea:
     
 SECTION "stack",BSS[$c100]
