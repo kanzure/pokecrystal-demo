@@ -3411,7 +3411,9 @@ JpHl: ; 2fec
 	jp [hl]
 ; 2fed
 
-INCBIN "baserom.gbc", $2fed, $300b-$2fed
+INCBIN "baserom.gbc", $2fed, $2ffd-$2fed
+    ret
+INCBIN "baserom.gbc", $2ffe, $300b-$2ffe
 
 ClearSprites: ; 300b
 	ld hl, Sprites
