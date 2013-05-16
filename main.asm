@@ -19899,9 +19899,17 @@ WriteChar:
     ld [hl], a
     push hl
     
-    ; Store the character tile in BuildArea0.
+    ; Get the character in VWF's font.
     ld a, [VWFChar]
+    cp $80
+    jr c, .high
     sub a, $80
+    jr .gotchar
+.high
+    add a, $20
+.gotchar
+    ld [VWFChar], a
+    ; Store the character tile in BuildArea0.
     ld hl, VWFFont
     ld b, 0
     ld c, a
@@ -19915,15 +19923,7 @@ WriteChar:
     ld [VWFNumTilesUsed], a
     
     ; Get the character length from the width table.
-    ; Space is a special case.
     ld a, [VWFChar]
-    sub a, $80
-    cp a, $ff
-    jr nz, .NotSpace
-    ld a, $05
-    ld [VWFCharWidth], a
-    jp .WidthWritten
-.NotSpace
     ld c, a
     ld b, $00
     ld hl, VWFTable
