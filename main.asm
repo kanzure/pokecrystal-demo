@@ -148,10 +148,17 @@ ParseTextScript:
     rst $18
     jp $13f6
 
+StartDoubleSpeedMode:
+    ld a, 01
+    ld [rKEY1], a
+    stop
+    ld a, $11
+	jp $016e
+
 SECTION "romheader",HOME[$100]
 Start:
 	nop
-	jp $016e
+	jp StartDoubleSpeedMode
 
 SECTION "start",HOME[$150]
 
@@ -3404,7 +3411,9 @@ JpHl: ; 2fec
 	jp [hl]
 ; 2fed
 
-INCBIN "baserom.gbc", $2fed, $300b-$2fed
+INCBIN "baserom.gbc", $2fed, $2ffd-$2fed
+    ret
+INCBIN "baserom.gbc", $2ffe, $300b-$2ffe
 
 ClearSprites: ; 300b
 	ld hl, Sprites
@@ -19791,7 +19800,7 @@ ResetVWF:
     xor a
     ;ld [W_VWF_LETTERNUM], a
     ;ld [W_VWF_CURTILENUM], a
-    ld [VWFCurTileRow], a
+    ;ld [VWFCurTileRow], a
     ld [VWFCurTileCol], a
     ld hl, VWFCurTileNum
     inc [hl]
@@ -19842,8 +19851,9 @@ CopyColumn:
     push hl
     push de
     ld a, $08
-    ld [VWFCurTileRow], a
+    ;ld [VWFCurTileRow], a
 .Copy
+    push af
     ld a, [de]
     and a, b
     jr nz, .CopyOne
@@ -19858,9 +19868,10 @@ CopyColumn:
 .Next
     ld [hli],a
     inc de
-    ld a, [VWFCurTileRow]
+    ;ld a, [VWFCurTileRow]
+    pop af
     dec a
-    ld [VWFCurTileRow], a
+    ;ld [VWFCurTileRow], a
     jp nz, .Copy
     pop de
     pop hl
@@ -19890,9 +19901,17 @@ WriteChar:
     ld [hl], a
     push hl
     
-    ; Store the character tile in BuildArea0.
+    ; Get the character in VWF's font.
     ld a, [VWFChar]
+    cp $80
+    jr c, .high
     sub a, $80
+    jr .gotchar
+.high
+    add a, $20
+.gotchar
+    ld [VWFChar], a
+    ; Store the character tile in BuildArea0.
     ld hl, VWFFont
     ld b, 0
     ld c, a
@@ -19906,15 +19925,7 @@ WriteChar:
     ld [VWFNumTilesUsed], a
     
     ; Get the character length from the width table.
-    ; Space is a special case.
     ld a, [VWFChar]
-    sub a, $80
-    cp a, $ff
-    jr nz, .NotSpace
-    ld a, $05
-    ld [VWFCharWidth], a
-    jp .WidthWritten
-.NotSpace
     ld c, a
     ld b, $00
     ld hl, VWFTable

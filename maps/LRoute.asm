@@ -61,7 +61,7 @@ LRouteRandomPerson:
 	jumptextfaceplayer LRouteRandomPersonText
 
 LRouteRandomPersonText:
-    print "There is a Miltank farm here."
+    print "There is a Miltank farm here. The milk of Miltanks is well known for its nutritive value."
 
 LRouteRandomPerson2:
 	jumptextfaceplayer LRouteRandomPerson2Text
