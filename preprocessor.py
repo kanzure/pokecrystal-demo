@@ -402,6 +402,7 @@ def quote_translator(asm):
                 characters += [char]
 
             if print_macro:
+                out = []
                 line = 0
                 line_px = 0
                 
@@ -430,9 +431,9 @@ def quote_translator(asm):
                     else:
                         prev_word_ending = 0x7f
                         line_px += 5
-                    if not first: output += ", ${0:02X}, ".format(prev_word_ending)
+                    if not first: out.append(prev_word_ending)
                     else: first = False
-                    output += ", ".join("${0:02X}".format(chars[char]) for char in word)
+                    out += [chars[char] for char in word]
                 
                 """
                 while len(characters):
@@ -457,8 +458,8 @@ def quote_translator(asm):
                 """
                 # end text
                 line_ending = 0x57
-                output += ", ${0:02X}".format(line_ending)
-                output = output.replace(", ,", ",") # I'm sorry
+                out.append(line_ending)
+                output += ", ".join("${0:02X}".format(byte) for byte in out)
                 characters = []
 
             output += ", ".join(["${0:02X}".format(chars[char]) for char in characters])
