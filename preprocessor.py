@@ -402,6 +402,7 @@ def quote_translator(asm):
                 characters += [char]
 
             if print_macro:
+                out = []
                 line = 0
                 line_px = 0
                 
@@ -416,20 +417,23 @@ def quote_translator(asm):
                 if len(word):
                     words.append(word)
                 
+                first = True
                 for word in words:
-                    output += ", ".join("${0:02X}".format(chars[char]) for char in word)
-                    word_len = count_vwf_length(word)+5
+                    word_len = count_vwf_length(word)
                     line_px += word_len
-                    if line_px > 18*8:
+                    if line_px > 17*8:
                         if not line & 1:
-                           word_ending = 0x4f
+                           prev_word_ending = 0x4f
                         else:
-                           word_ending = 0x51
+                           prev_word_ending = 0x51
                         line += 1
-                        line_px = 0
+                        line_px = word_len
                     else:
-                        word_ending = 0x7f
-                    output += ", ${0:02X}, ".format(word_ending)
+                        prev_word_ending = 0x7f
+                        line_px += 5
+                    if not first: out.append(prev_word_ending)
+                    else: first = False
+                    out += [chars[char] for char in word]
                 
                 """
                 while len(characters):
@@ -454,8 +458,8 @@ def quote_translator(asm):
                 """
                 # end text
                 line_ending = 0x57
-                output += ", ${0:02X}".format(line_ending)
-                output = output.replace(", ,", ",") # I'm sorry
+                out.append(line_ending)
+                output += ", ".join("${0:02X}".format(byte) for byte in out)
                 characters = []
 
             output += ", ".join(["${0:02X}".format(chars[char]) for char in characters])
@@ -477,7 +481,7 @@ def count_vwf_length(string):
         #raise RuntimeError(hex(num), vwftable[num], vwftable[0x13])
         if num == -1:
             pixels += 5
-        elif num in vwftable:
+        elif num in range(len(vwftable)):
             pixels += vwftable[num]
         else:
             pixels += 8 # XXX
